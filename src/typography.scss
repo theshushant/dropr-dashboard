@@ -1,0 +1,19 @@
+$font-primary: niveau-grotesk, sans-serif;
+
+.font-primary {
+  font-family: $font-primary;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-bold {
+  font-family: $font-primary;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-medium {
+  font-family: $font-primary;
+  font-weight: 500;
+  font-style: normal;
+}

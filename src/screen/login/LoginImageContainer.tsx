@@ -5,7 +5,7 @@ import LoginContainerImage from "../../assets/LoginContainerImage.svg";
 
 const ImageContainerWrapper = styled.div`
   flex: 2;
-  background-color: green;
+  background-color: ${props => props.theme.colors.droprPrimaryBackgroundColor};
   alignment: center;
 `;
 

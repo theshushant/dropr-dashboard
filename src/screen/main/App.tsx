@@ -1,6 +1,4 @@
 import React from 'react';
-import Loader from "../../components/Loader/Loader";
-import FullScreenLoader from "../../components/FullScreenLoader/FullScreenLoader";
 import {RootStore} from "../../stores/RootStore";
 import {StyledToastContainer} from "../../utils/globals";
 import { createTheme } from "@material-ui/core";
@@ -15,11 +13,15 @@ import Login from "../login/Login";
 
 const theme = {
     colors: {
-        primaryColor: "rgb(16,193,206)",
+        primaryColor: "rgb(223, 110, 81)",
+        droprPrimaryBackgroundColor: "rgba(223, 110, 81, 0.05)",
+        secondaryColor: "rgba(223, 110, 81, 1)",
+        orangeColor: "rgb(226, 154, 46)",
+
+
         primaryDarkColor: "rgb(20,155,165)",
         surfSideRedColor: "rgb(206,16,61)",
         surfSideBlueColor: "rgb(0,47,84)",
-        orangeColor: "rgb(226, 154, 46)",
         whiteColor: "rgb(255,255,255)",
         whiteColorOpacity: "rgba(255,255,255,0.7)",
         blackColor: "rgb(29,29,29)",
@@ -29,7 +31,7 @@ const theme = {
         greyLightColor: "rgb(245,245,245)",
         greyShadowColor: "rgb(240,239,255)",
         blackColorOpacity2: "rgba(29,29,29,0.2)",
-        blackColorOpacity5: "rgba(29,29,29,0.5)",
+        blackColorOpacity5: "rgba(34, 37, 41, 0.75)",
         dividerColor: "rgba(112, 112, 112, 1)",
     },
     material: {
