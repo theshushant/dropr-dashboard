@@ -48,6 +48,10 @@ const StyledLink = styled(Link)`
   width: max-content;
 `;
 
+const PointerProvider = styled.div`
+   cursor:pointer;
+`;
+
 const RowContainer = styled.div`
   display: flex;
   width: 100%;
@@ -95,17 +99,24 @@ const StyledToastContainer = styled(ToastContainer).attrs({
   }
 `;
 
+const NoScrollContainer = styled.div`
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+`;
+
 const StyledTable = styled(Table)`
   border-collapse: separate;
   border-spacing: 0 0.625rem;
 `;
 
 const StyledTableContainer = styled(TableContainer)`
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: scroll;
 
   ::-webkit-scrollbar {
-    width: 6.25rem;
+    //width: 6.25rem;
     height: 0.5rem;
   }
 
@@ -124,8 +135,8 @@ const TableHeadCell = styled(TableCell)`
   font-size: 1.125rem;
   box-shadow: none;
   border: none;
-  color: ${(props: any) => props.theme.colors.whiteColor};
-  background-color: ${(props: any) => props.theme.colors.primaryColor};
+  color: ${(props: any) => props.theme.colors.blackColor};
+  background-color: ${(props: any) => props.theme.colors.secondaryColor};
   font-weight: bold;
   padding: 0 1rem;
 `;
@@ -137,6 +148,14 @@ const TableBodyCell = styled(TableCell)`
   border: none;
   background-color: ${(props: any) => props.theme.colors.whiteColor};
   padding: 0 1rem;
+`;
+
+const PrimaryTableBodyCell = styled(TableBodyCell)`
+  color: ${props => props.theme.colors.primaryColor};
+`;
+
+const SuccessTableBodyCell = styled(TableBodyCell)`
+  color: ${props => props.theme.colors.successColor};
 `;
 
 const GreyTableBodyCell = styled(TableBodyCell)`
@@ -160,7 +179,7 @@ const StyledTableRow = styled(TableRow)`
     border-radius: 0 0.5rem 0.5rem 0;
   }
 
-  cursor: pointer;
+  //cursor: pointer;
 `;
 
 const Warning = styled.span`
@@ -199,4 +218,8 @@ export {
     Warning,
     capitalize,
     AlignCenter,
+    NoScrollContainer,
+    PrimaryTableBodyCell,
+    SuccessTableBodyCell,
+    PointerProvider
 };

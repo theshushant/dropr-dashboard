@@ -11,6 +11,7 @@
     "@types/node": "^16.11.56",
     "@types/react": "^18.0.18",
     "axios": "^0.27.2",
+    "env-cmd": "^10.1.0",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "mobx": "^6.6.1",
@@ -27,8 +28,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "PORT=4200 env-cmd react-scripts start",
+    "build:staging": "env-cmd -f .env.staging react-scripts build",
+    "build:dev": "env-cmd -f .env react-scripts build",
+    "build:production": "env-cmd -f .env.production -scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -56,6 +59,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "@types/yup": "^0.32.0",
+    "cross-env": "^7.0.3",
     "node-sass": "^7.0.3"
   }
 }

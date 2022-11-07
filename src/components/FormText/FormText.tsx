@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {Input} from "@material-ui/core";
 import CustomErrorMessage from "../CustomErrorMessage/CustomErrorMessage";
 import FormLabel from "../FormLabel/FormLabel";
-import {RowContainer, SpaceX} from "../../utils/globals";
+import {ColumnContainer, RowContainer, SpaceX} from "../../utils/globals";
 
 interface Props {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,6 +27,7 @@ const InputContainer = styled.div`
   flex-direction: column;
   width: 100%;
   margin: 0.625rem 0;
+  max-height: 5rem;
   flex: 1;
   border: 0.125rem solid ${props =>
           (props.theme.primaryColor && props.theme.colors.greyColor) ||
@@ -47,11 +48,11 @@ const InputContainer = styled.div`
 const StyledInput = styled(Input)`
   text-overflow: ellipsis;
   background-color: ${props =>
-          (props.disabled && props.theme.colors.greyColor) ||
+          // (props.disabled && props.theme.colors.greyColor) ||
           props.theme.colors.whiteColor};
   color: ${props =>
           (props.disabled && props.theme.colors.blackColor) ||
-          props.theme.colors.primaryColor};
+          props.theme.colors.blackColor};
   height: 3.125rem;
   flex-grow: 1;
 `;
@@ -75,12 +76,26 @@ const FormText: React.FC<Props> = (props: Props) => {
     const disabled = props.disabled ?? false;
 
     return (
-        <InputContainer style={containerStyle}>
-            {props.label ? (
-                <FormLabel id={props.name} labelText={props.label}/>
-            ) : null}
-            {props.iconChild != null ? <RowContainerVersion>
-                <StyledInput
+        <ColumnContainer>
+            <InputContainer style={containerStyle}>
+                {props.label ? (
+                    <FormLabel id={props.name} labelText={props.label}/>
+                ) : null}
+                {props.iconChild != null ? <RowContainerVersion>
+                    <StyledInput
+                        name={props.name}
+                        id={props.id}
+                        value={props.value}
+                        type={props.type ?? "text"}
+                        onChange={props.onChange}
+                        placeholder={props.placeholder}
+                        style={style}
+                        disableUnderline
+                        disabled={disabled}
+                    />
+                    <SpaceX width={"0.5rem"}/>
+                    {props.iconChild!}
+                </RowContainerVersion> : <StyledInput
                     name={props.name}
                     id={props.id}
                     value={props.value}
@@ -90,24 +105,12 @@ const FormText: React.FC<Props> = (props: Props) => {
                     style={style}
                     disableUnderline
                     disabled={disabled}
-                />
-                <SpaceX width={"0.5rem"}/>
-                {props.iconChild!}
-            </RowContainerVersion> : <StyledInput
-                name={props.name}
-                id={props.id}
-                value={props.value}
-                type={props.type ?? "text"}
-                onChange={props.onChange}
-                placeholder={props.placeholder}
-                style={style}
-                disableUnderline
-                disabled={disabled}
-            />}
+                />}
+            </InputContainer>
             {!disabled
                 ? props.error && <CustomErrorMessage>{props.error}</CustomErrorMessage>
                 : null}
-        </InputContainer>
+        </ColumnContainer>
     );
 };
 

@@ -6,10 +6,8 @@ import {GlobalProps} from "../main/App";
 import LoginImageContainer from "./LoginImageContainer";
 import LoginFormContainer from "./LoginFormContainer";
 
-interface Props extends GlobalProps {
-}
 
-const Login: React.FC<Props> = (props) => {
+const Login: React.FC<GlobalProps> = (props) => {
     return <FullPageContainer>
         <RowContainer>
             <LoginFormContainer/>

@@ -8,13 +8,10 @@ import {Form, Formik} from "formik";
 import * as Yup from "yup";
 import FormText from "../../components/FormText/FormText";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import {toast} from "react-toastify";
 import Logo from "../../assets/Logo.svg";
 import LabelledCheckBox from "../../components/LabelledCheckBox/LabelledCheckBox";
 import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
-
-interface Props extends GlobalProps {
-}
+import {useNavigate} from "react-router-dom";
 
 const FlexContainerLoginVersion = styled(FlexContainer)`
   margin: 0 5rem;
@@ -49,11 +46,17 @@ const RowContainerVersion = styled(RowContainer)`
   justify-content: space-between;
 `;
 
+interface LoginFormikValues {
+    username: string,
+    password: string,
+}
 
-const LoginFormContainer: React.FC<Props> = (props: Props) => {
+const LoginFormContainer: React.FC<GlobalProps> = (props) => {
     const {theme} = props;
     const store = props.store!.user;
     const [hidePassword, setHidePassword] = React.useState(true);
+    const navigate = useNavigate();
+
     return <FlexContainerLoginVersion flex={1}>
         <HeaderContainer flex={1}>
             <ImageContainer/>
@@ -71,7 +74,7 @@ const LoginFormContainer: React.FC<Props> = (props: Props) => {
         <CustomTypography
             variant="h4"
             fontWeight={"bold"}
-            color={props.theme.colors.blackColorOpacity5}
+            color={props.theme.colors.disabledBorderColor}
         >
             Log In
         </CustomTypography>
@@ -88,12 +91,17 @@ const LoginFormContainer: React.FC<Props> = (props: Props) => {
                         .required("Field is required"),
                     password: Yup.string().required("Field is required"),
                 })}
-                onSubmit={values => {
+                onSubmit={async (values: LoginFormikValues) => {
                     try {
-                        toast.success(values.username);
-                        console.log(values.username);
+                        console.log("here values are these" + values.toString());
+                        await store.login(values.username, values.password);
+                        if (store.loggedInUser != null) {
+                            navigate('/');
+                        }
+
                     } catch (e: any) {
-                        toast.error(e.message);
+                        console.log(JSON.stringify(e));
+                        alert(e.errors);
                     }
                 }}>
                 {(formikProps) => (
@@ -139,7 +147,7 @@ const LoginFormContainer: React.FC<Props> = (props: Props) => {
                             <CustomTypography
                                 variant="h6"
                                 fontWeight={"normal"}
-                                color={props.theme.colors.secondaryColor}
+                                color={props.theme.colors.primaryColor}
                                 textAlign={"right"}
                             >
                                 Forgot Password?

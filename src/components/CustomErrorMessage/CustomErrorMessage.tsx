@@ -7,7 +7,7 @@ interface Props {
 }
 
 const StyledFormHelperText = styled(FormHelperText)`
-  margin-top: 0.625rem;
+  margin-top: -0.625rem;
   font-size: 1rem;
   color: ${props => props.theme.colors.surfSideRedColor};
   text-align: left;
