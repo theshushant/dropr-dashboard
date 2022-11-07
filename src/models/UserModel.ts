@@ -1,28 +1,32 @@
-import { observable } from "mobx";
-import {UserStore} from "../stores/UserStore";
-import Model from "./Model";
+import {observable} from "mobx";
 
-export class User extends Model {
-  static _store: UserStore;
+export class User {
+    @observable __type!: string;
 
-  @observable __type!: string;
+    @observable id!: number;
 
-  @observable id!: number;
+    @observable name!: string;
 
-  @observable name!: string;
+    @observable created_at!: Date;
 
-  @observable created_at!: Date;
+    @observable updated_at!: Date;
 
-  @observable updated_at!: Date;
+    @observable email!: string;
 
-  @observable email!: string;
+    @observable phone_number!: string;
 
-  @observable phone_number!: string;
+    @observable profile_pic_url!: string;
 
-  @observable profile_pic_url!: string;
+    @observable is_email_verified: boolean = false;
+
+    @observable is_phone_verified: boolean = false;
+
+    @observable is_verified: boolean = false;
+
+    @observable role!: string;
 
 
-  getId(): string | number {
-    return this.id;
-  }
+    getId(): string | number {
+        return this.id;
+    }
 }

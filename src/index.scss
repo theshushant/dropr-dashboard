@@ -1,0 +1,41 @@
+@import "typography";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  color: black;
+  font-size: 16px;
+  font-family: $font-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+@media screen and (min-width: 960px) and (max-width: 1279px) {
+  font-size: 12px;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1800px) {
+  font-size: 13px;
+}
+
+@media screen and (min-width: 1801px) {
+  font-size: 16px;
+}
+}
+
+body {
+  margin: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+a {
+  text-decoration: none;
+}

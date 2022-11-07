@@ -1,8 +1,14 @@
 import React from "react";
-import { Route } from "react-router";
+import {Route} from "react-router-dom";
 
-const PublicRoute: React.FC<any> = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={(props:any) => <Component {...props} />} />;
+
+interface Props {
+    path: string,
+    component: React.ReactNode,
+}
+
+const PublicRoute: React.FC<Props> = (props) => {
+    return <Route path={props.path} element={props.component}/>;
 };
 
 export default PublicRoute;

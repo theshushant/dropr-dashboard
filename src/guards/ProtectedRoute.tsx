@@ -6,7 +6,7 @@ export default {};
 // import FullScreenLoader from "../components/FullScreenLoader/FullScreenLoader";
 //
 // const ProtectedRoute: React.FC<any> = ({ component: Component, ...rest }) => {
-//   switch (rest.store.user.loginState) {
+//   switch (rest.store.order.loginState) {
 //     case LoginState.LOGGED_IN:
 //       return <Route {...rest} render={(props:any) => <Component {...props} />} />;
 //     case LoginState.LOGGED_OUT:

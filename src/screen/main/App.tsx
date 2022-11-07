@@ -1,9 +1,7 @@
 import React from 'react';
-import Loader from "../../components/Loader/Loader";
-import FullScreenLoader from "../../components/FullScreenLoader/FullScreenLoader";
 import {RootStore} from "../../stores/RootStore";
 import {StyledToastContainer} from "../../utils/globals";
-import { createTheme } from "@material-ui/core";
+import {createTheme} from "@material-ui/core";
 import {
     StylesProvider,
     ThemeProvider as MaterialThemeProvider,
@@ -11,25 +9,32 @@ import {
 import {Provider} from "mobx-react";
 import {ThemeProvider} from "styled-components";
 import {Zoom} from "react-toastify";
-import Login from "../login/Login";
+import Splash from "../splash/Splash";
 
 const theme = {
     colors: {
-        primaryColor: "rgb(16,193,206)",
+        primaryColor: "rgb(223, 110, 81)",
+        droprPrimaryBackgroundColor: "rgba(223, 110, 81, 0.05)",
+        secondaryColor: "rgba(223, 110, 81, 0.1)",
+        orangeColor: "rgb(226, 154, 46)",
+        disabledIconColor: "rgba(136, 138, 152, 1)",
+        backgroundColor: "rgba(250, 249, 248, 1)",
+        disabledBorderColor: "rgba(34, 37, 41, 0.25)",
+        blackColorOpacity5: "rgba(34, 37, 41, 0.75)",
+        successColor: "rgba(0, 144, 69, 1)",
+        greyColor: "rgb(217,217,217)",
+        lightBackgroundColor: "rgb(251, 252, 253)",
+
         primaryDarkColor: "rgb(20,155,165)",
         surfSideRedColor: "rgb(206,16,61)",
         surfSideBlueColor: "rgb(0,47,84)",
-        orangeColor: "rgb(226, 154, 46)",
         whiteColor: "rgb(255,255,255)",
         whiteColorOpacity: "rgba(255,255,255,0.7)",
         blackColor: "rgb(29,29,29)",
-        greenColor: "rgb(16,206,79)",
         greyDarkColor: "rgb(126,126,126)",
-        greyColor: "rgb(217,217,217)",
         greyLightColor: "rgb(245,245,245)",
         greyShadowColor: "rgb(240,239,255)",
         blackColorOpacity2: "rgba(29,29,29,0.2)",
-        blackColorOpacity5: "rgba(29,29,29,0.5)",
         dividerColor: "rgba(112, 112, 112, 1)",
     },
     material: {
@@ -141,25 +146,25 @@ export interface GlobalProps {
 
 const App: React.FC = () => (
     <MaterialThemeProvider theme={materialTheme}>
-      <ThemeProvider theme={theme}>
-        <Provider store={RootStore.getInstance()}>
-          <StylesProvider injectFirst>
-            <StyledToastContainer
-                position="bottom-center"
-                autoClose={3000}
-                hideProgressBar
-                newestOnTop
-                closeOnClick
-                closeButton={false}
-                rtl={false}
-                pauseOnFocusLoss
-                pauseOnHover
-                transition={Zoom}
-            />
-            <Login />
-          </StylesProvider>
-        </Provider>
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+            <Provider store={RootStore.getInstance()}>
+                <StylesProvider injectFirst>
+                    <StyledToastContainer
+                        position="bottom-center"
+                        autoClose={3000}
+                        hideProgressBar
+                        newestOnTop
+                        closeOnClick
+                        closeButton={false}
+                        rtl={false}
+                        pauseOnFocusLoss
+                        pauseOnHover
+                        transition={Zoom}
+                    />
+                    <Splash/>
+                </StylesProvider>
+            </Provider>
+        </ThemeProvider>
     </MaterialThemeProvider>
 );
 

@@ -1,9 +1,9 @@
-import { action, computed, observable } from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import {LoginState} from "../enums/LoginStatus";
-import Store from "./Store";
 import {User} from "../models/UserModel";
+import {authService} from "../services/AuthService";
 
-export class UserStore extends Store<User> {
+export class UserStore {
     private static _instance: UserStore;
 
     @observable loggedInUser: User | undefined;
@@ -15,8 +15,7 @@ export class UserStore extends Store<User> {
     @observable loginState: LoginState = LoginState.PENDING;
 
     constructor() {
-        super();
-        User._store = this;
+        makeObservable(this);
     }
 
     static getInstance(): UserStore {
@@ -27,24 +26,26 @@ export class UserStore extends Store<User> {
         return this._instance;
     }
 
-    // async login(username: string, password: string) {
-    //     try {
-    //         this.isLoading = true;
-    //         await authService.login(username, password);
-    //         return this.getMe();
-    //     } catch (e) {
-    //         this.isLoading = false;
-    //         throw e;
-    //     }
-    // }
+    @action
+    async login(username: string, password: string) {
+        try {
+            this.isLoading = true;
+            this.loggedInUser = await authService.login(username, password);
+            this.isLoading = false;
+        } catch (e) {
+            this.isLoading = false;
+            throw e;
+        }
+    }
+
     //
     // @action
     // async getMe() {
     //     try {
     //         this.isLoading = true;
-    //         const user = await authService.me();
-    //         this.setLoggedInUser(user);
-    //         return user;
+    //         const order = await authService.me();
+    //         this.setLoggedInUser(order);
+    //         return order;
     //     } catch (e) {
     //         this.isLoading = false;
     //         throw e;
@@ -65,8 +66,8 @@ export class UserStore extends Store<User> {
     async getLoginStatus() {
         // const isTokenPresent = !!localStorage.getItem("auth_token");
         // if (isTokenPresent) {
-        //     const user = this.loggedInUser;
-        //     if (!user) {
+        //     const order = this.loggedInUser;
+        //     if (!order) {
         //         try {
         //             const res: User = await this.getMe();
         //             this.setLoggedInUser(res);

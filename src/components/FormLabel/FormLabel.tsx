@@ -10,9 +10,10 @@ interface Props {
 }
 
 const Label = styled(InputLabel)`
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: ${[props => props.theme.colors.blackColor]};
-  margin: 0.3125rem 0;
+  background-color: ${[props => props.theme.colors.whiteColor]};
+  padding: 0.3125rem 0;
   text-align: left;
 `;
 
