@@ -38,19 +38,19 @@ export class UserStore {
         }
     }
 
-    //
-    // @action
-    // async getMe() {
-    //     try {
-    //         this.isLoading = true;
-    //         const order = await authService.me();
-    //         this.setLoggedInUser(order);
-    //         return order;
-    //     } catch (e) {
-    //         this.isLoading = false;
-    //         throw e;
-    //     }
-    // }
+
+    @action
+    async getMe() {
+        try {
+            this.isLoading = true;
+            const order = await authService.getMe();
+            this.setLoggedInUser(order);
+            return order;
+        } catch (e) {
+            this.isLoading = false;
+            throw e;
+        }
+    }
     //
     // @computed get users() {
     //     return this.entities;

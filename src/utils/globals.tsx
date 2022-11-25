@@ -44,12 +44,12 @@ const ManageNewComponents = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
-  pointer: cursor;
+  cursor: pointer;
   width: max-content;
 `;
 
 const PointerProvider = styled.div`
-   cursor:pointer;
+  cursor: pointer;
 `;
 
 const RowContainer = styled.div`
@@ -114,7 +114,7 @@ const StyledTable = styled(Table)`
 const StyledTableContainer = styled(TableContainer)`
   overflow-y: scroll;
   overflow-x: scroll;
-
+  
   ::-webkit-scrollbar {
     //width: 6.25rem;
     height: 0.5rem;
@@ -179,7 +179,6 @@ const StyledTableRow = styled(TableRow)`
     border-radius: 0 0.5rem 0.5rem 0;
   }
 
-  //cursor: pointer;
 `;
 
 const Warning = styled.span`

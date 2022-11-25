@@ -44,7 +44,6 @@ const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
         if (!store.isLoading && store.categories.length < 1) {
             store?.fetchCategories();
         }
-        console.log("how many times");
     }, [store]);
 
     if (store?.isLoading && store.categories.length < 1) {

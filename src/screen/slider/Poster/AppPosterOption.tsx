@@ -45,7 +45,6 @@ const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
         if (!store.isLoading && store.posters.length < 1) {
             store.fetchPosters();
         }
-        console.log("how many times");
     }, [store]);
 
     if (store?.isLoading && store.posters.length < 1) {

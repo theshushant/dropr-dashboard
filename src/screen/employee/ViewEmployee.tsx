@@ -78,14 +78,14 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                 try {
                     const name = values.firstname + values.lastname;
                     console.log(values.isActive)
-                    await store.createEmployee({
-                        "name": name,
-                        "email": values.email,
-                        "password": "secret",
-                        "is_active": isActive,
-                        "phone_number": values.phoneNumber,
-                        "role": values.role,
-                    });
+                    // await store.createEmployee({
+                    //     "name": name,
+                    //     "email": values.email,
+                    //     "password": "secret",
+                    //     "is_active": isActive,
+                    //     "phone_number": values.phoneNumber,
+                    //     "role": values.role,
+                    // });
                     navigate("/employees");
                 } catch (e: any) {
                     alert(e.message);

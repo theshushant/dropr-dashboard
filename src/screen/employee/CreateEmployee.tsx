@@ -1,7 +1,7 @@
 import {inject, observer} from "mobx-react";
 import styled, {withTheme} from "styled-components";
 import {GlobalProps} from "../main/App";
-import React from "react";
+import React, {useState} from "react";
 import CustomGreyBgCard from "../../components/CustomGreyBgCard/CustomGreyBgCard";
 import {ColumnContainer, FlexContainer, RowContainer, SpaceX, SpaceY} from "../../utils/globals";
 import {Form, Formik} from "formik";
@@ -12,6 +12,8 @@ import CustomTypography from "../../components/CustomTypography/CustomTypography
 import ChangePhoto from "../../components/ChangePhoto/ChangePhoto";
 import ToggleSwitch from "../../components/ToggleButton/ToggleButton";
 import {useNavigate} from "react-router-dom";
+import FileUpload from "../../components/FileUpload/FileUpload";
+import {IoMdAttach} from 'react-icons/io';
 
 
 const ColumnContainerVersion = styled(ColumnContainer)`
@@ -33,10 +35,13 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
     const {theme} = props;
     const store = props.store?.employeeStore!;
     const navigate = useNavigate();
-    let isActive = true;
+    const [driverLicense, setDriverLicenseFile] = useState();
+    const [registrationCertificate, setRegistrationCertificateFile] = useState();
+    const [vehiclePlateNumber, setVehiclePlateNumberFile] = useState();
 
     return (
         <Formik
+            enableReinitialize={true}
             initialValues={{
                 email: "",
                 phoneNumber: "",
@@ -45,6 +50,9 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                 username: "",
                 firstname: "",
                 lastname: "",
+                driverLicense: "",
+                registrationCertificate: "",
+                vehiclePlateNumber: "",
             }}
             validationSchema={Yup.object().shape({
                 email: Yup.string()
@@ -53,21 +61,27 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                 firstname: Yup.string().required("Field is required"),
                 username: Yup.string().required("Field is required"),
                 phoneNumber: Yup.string().required("Field is required"),
+                driverLicense: Yup.string().required("Field is required"),
+                registrationCertificate: Yup.string().required("Field is required"),
+                vehiclePlateNumber: Yup.string().required("Field is required"),
             })}
             onSubmit={async values => {
                 try {
                     const name = values.firstname + values.lastname;
                     console.log(values.isActive)
+
                     await store.createEmployee({
                         "name": name,
                         "email": values.email,
                         "password": "secret",
-                        "is_active": isActive,
+                        "is_active": values.isActive,
                         "phone_number": values.phoneNumber,
                         "role": values.role,
-                    });
+                    }, driverLicense!, registrationCertificate!, vehiclePlateNumber!);
+
                     navigate("/employees");
                 } catch (e: any) {
+                    console.log("here error is this ", e);
                     alert(e.message);
                 }
             }}>
@@ -129,16 +143,16 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                         name={"isActive"}
                                         onChange={formikProps.handleChange}
                                         placeholder={"In Active"}
-                                        value={null}
+                                        value={""}
                                         textColor={"red"}
                                         error={
                                             formikProps.touched.isActive && formikProps.errors.isActive
                                         }
                                         label={"Is Active?"}
                                         disabled={true}
-                                        iconChild={<ToggleSwitch isActive={isActive}
-                                                                 onchange={(value:boolean)=>{
-                                                                     isActive = value;
+                                        iconChild={<ToggleSwitch isActive={formikProps.values.isActive}
+                                                                 onchange={(value: boolean) => {
+                                                                     formikProps.values.isActive = value;
                                                                  }}/>}
                                     />
                                 </ColumnContainer>
@@ -185,34 +199,58 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                                     id={"driverLicense"}
                                                     name={"driverLicense"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.driverLicense}
                                                     placeholder={"Type Here"}
                                                     textColor={"red"}
-                                                    // error={
-                                                    //     formikProps.touched.username && formikProps.errors.username
-                                                    // }
+                                                    disabled={true}
+                                                    showError={true}
+                                                    iconChild={<FileUpload onSelect={(file: any) => {
+                                                        console.log(file.name, file.type, file.size);
+                                                        formikProps.values.driverLicense = file.name;
+                                                        setDriverLicenseFile(file);
+                                                    }} child={<IoMdAttach size={"1.5rem"} onClick={() => {
+                                                    }}/>}/>}
+                                                    error={
+                                                        formikProps.touched.driverLicense && formikProps.errors.driverLicense
+                                                    }
                                                     label={"Driver’s License"}/>
                                                 <FormText
                                                     id={"registrationCertificate*"}
                                                     name={"registrationCertificate"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.registrationCertificate}
                                                     placeholder={"Type Here"}
                                                     textColor={"red"}
-                                                    // error={
-                                                    //     formikProps.touched.username && formikProps.errors.username
-                                                    // }
+                                                    disabled={true}
+                                                    showError={true}
+                                                    iconChild={<FileUpload onSelect={(file: any) => {
+                                                        console.log(file.name, file.type, file.size);
+                                                        formikProps.values.registrationCertificate = file.name;
+                                                        setRegistrationCertificateFile(file);
+                                                    }} child={<IoMdAttach size={"1.5rem"} onClick={() => {
+                                                    }}/>}/>}
+                                                    error={
+                                                        formikProps.touched.registrationCertificate && formikProps.errors.registrationCertificate
+                                                    }
                                                     label={"Registration Certificate"}/>
                                                 <FormText
                                                     id={"vehiclePlateNumber"}
                                                     name={"vehiclePlateNumber"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.vehiclePlateNumber}
                                                     placeholder={"Type Here"}
                                                     textColor={"red"}
-                                                    // error={
-                                                    //     formikProps.touched.username && formikProps.errors.username
-                                                    // }
+                                                    disabled={true}
+                                                    showError={true}
+                                                    iconChild={<FileUpload onSelect={(file: any) => {
+                                                        console.log(file.name, file.type, file.size);
+                                                        formikProps.values.vehiclePlateNumber = file.name;
+                                                        setVehiclePlateNumberFile(file);
+                                                    }} child={<IoMdAttach size={"1.5rem"} onClick={() => {
+                                                    }}/>}/>}
+                                                    error={
+                                                        formikProps.touched.vehiclePlateNumber && formikProps.errors.vehiclePlateNumber
+                                                    }
                                                     label={"Vehicle Plate Number"}/>
                                             </ColumnContainer>
                                             <SpaceX width={"4rem"}/>
@@ -244,9 +282,12 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                     </ColumnContainerVersion>
                                     <RowContainerVersion2>
                                         <CustomButton
-                                            type="submit"
                                             borderRadius="0"
                                             variant={"outlined"}
+                                            onClick={() => {
+                                                // authService.getUrl();
+                                            }}
+                                            type={"button"}
                                         >
                                             Cancel
                                         </CustomButton>

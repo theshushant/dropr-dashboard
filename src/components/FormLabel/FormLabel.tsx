@@ -7,6 +7,7 @@ interface Props {
   id?: string;
   labelColor?: string;
   margin?: string;
+  size?:string
 }
 
 const Label = styled(InputLabel)`
@@ -21,6 +22,7 @@ const FormLabel: React.FC<Props> = (props: Props) => {
   const style = {
     color: props.labelColor,
     margin: props.margin,
+    fontWeight:props.size
   };
   return (
     <Label style={style} htmlFor={props.id}>

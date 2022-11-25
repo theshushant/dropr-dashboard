@@ -3,7 +3,6 @@ import styled from "styled-components";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import {AiOutlineSearch} from 'react-icons/ai';
 import {Input} from "@material-ui/core";
-import ChipsContainer from "./ChipsColumn";
 
 interface Props {
     placeholder: string;
@@ -21,7 +20,7 @@ const StyledInput = styled(Input)`
   color: ${props => props.theme.colors.disabledBorderColor};
   font-weight: bold;
   flex: 1;
-  max-height: 4rem;
+  max-height: 3rem;
 
   :active {
     box-shadow: 0 0 0.625rem ${props => props.theme.colors.primaryColor};
