@@ -35,6 +35,14 @@ const EmptyData = styled.div`
   width: 100%;
 `;
 
+const StyledTableRowVersion = styled(StyledTableRow)`
+cursor: pointer;
+`;
+
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  height: 70vh;
+`;
+
 
 const EmployeeScreen: React.FC<GlobalProps> = (props) => {
     const navigate = useNavigate();
@@ -73,7 +81,7 @@ const EmployeeScreen: React.FC<GlobalProps> = (props) => {
                 </RowContainerVersion>
                 {store.employees.length < 1
                     ? (<EmptyData>No Data available </EmptyData>)
-                    : (<StyledTableContainer>
+                    : (<StyledTableContainerVersion>
                         <StyledTable>
                             <TableHead>
                                 <StyledTableRow>
@@ -86,7 +94,7 @@ const EmployeeScreen: React.FC<GlobalProps> = (props) => {
                             </TableHead>
                             <TableBody>
                                 {store.employees.map(row => (
-                                    <StyledTableRow key={row.id.toString()} onClick={
+                                    <StyledTableRowVersion key={row.id.toString()} onClick={
                                         ()=>{
                                             navigate("/employee/"+row.id);
                                         }
@@ -118,11 +126,11 @@ const EmployeeScreen: React.FC<GlobalProps> = (props) => {
                                         <TableBodyCell align="left">
                                             {row.created_at.toString()}
                                         </TableBodyCell>
-                                    </StyledTableRow>
+                                    </StyledTableRowVersion>
                                 ))}
                             </TableBody>
                         </StyledTable>
-                    </StyledTableContainer>)}
+                    </StyledTableContainerVersion>)}
             </ColumnContainer>
         </WhiteCard>
     );

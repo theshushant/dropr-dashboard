@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {inject, observer} from "mobx-react";
 import styled, {withTheme} from "styled-components";
-import {ColumnContainer, NoScrollContainer, RowContainer} from "../../utils/globals";
+import {ColumnContainer, FlexContainer, NoScrollContainer, RowContainer} from "../../utils/globals";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import CreateEmployee from "../employee/CreateEmployee";
 import NavigationTitleBar from "../../components/NavigationTitleBar/NavigationTitleBar";
@@ -14,7 +14,6 @@ import DashboardScreen from "../dashboard/DashboardScreen";
 import CustomGreyBgCard from "../../components/CustomGreyBgCard/CustomGreyBgCard";
 import AppCategoryOption from "../slider/Category/AppCategoryOption";
 import AppPosterOption from "../slider/Poster/AppPosterOption";
-import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import DroprLogo from "../../assets/DroprD.svg";
 import AppTagOption from "../slider/Tag/AppTagOption";
 import ViewEmployee from "../employee/ViewEmployee";
@@ -30,10 +29,12 @@ const HomeRowContainer = styled(RowContainer)`
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
+    useEffect(() => {
+        if(!localStorage.getItem("auth_token")){
+            navigate('/login');
+        }
+    }, );
 
-    if(!localStorage.getItem("auth_token")){
-        navigate('/login');
-    }
     return (
         <NoScrollContainer>
             <ColumnContainer>
@@ -52,8 +53,10 @@ const Home: React.FC = () => {
                 </HomeRowContainer>
 
                 <RowContainer>
-                    <NavigationBar/>
-                    <SideDrawer isOpen={true}/>
+                   <FlexContainer flex={1}>
+                       <NavigationBar/>
+                   </FlexContainer>
+                    {/*<SideDrawer isOpen={false}/>*/}
                     <ColumnContainer>
                         <NavigationTitleBar/>
                         <CustomGreyBgCard padding={"2rem"}>

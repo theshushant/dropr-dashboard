@@ -20,17 +20,13 @@ import AddIcon from "../../../assets/add.svg";
 
 
 const headings = [
-    "Name", "Icon", "Created At", "Is Active", "Actions"
+    "Name", "Created At", "Is Active", "Actions"
 ];
 
 const RowContainerVersion = styled(RowContainer)`
   flex-grow: 0;
   justify-content: end;
   padding: 1rem 2rem;
-`;
-
-const NavIcon = styled.img`
-  height: 2.5rem;
 `;
 
 const WhiteCard = styled.div`
@@ -45,7 +41,6 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
         if (!store.isLoading && store.tags.length < 1) {
             store.fetchTags();
         }
-        console.log("how many times");
     }, [store]);
 
     if (store?.isLoading && store.tags.length<1) {
@@ -87,9 +82,9 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
                                             <TableBodyCell align="left">
                                                 {tag.name}
                                             </TableBodyCell>
-                                            <TableBodyCell align="left">
-                                                <NavIcon src={tag.url}/>
-                                            </TableBodyCell>
+                                            {/*<TableBodyCell align="left">*/}
+                                            {/*    <NavIcon src={tag.url}/>*/}
+                                            {/*</TableBodyCell>*/}
                                             <TableBodyCell align="left">
                                                 {tag.created_at.toString()}
                                             </TableBodyCell>
@@ -97,10 +92,10 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
                                                 {tag.is_active ? "Yes" : "No"}
                                             </TableBodyCell>
                                             <TableBodyCell align="left">
-                                                <PointerProvider onClick={() => {
-                                                    try{
-                                                        store.deleteTag(tag.id);
-                                                    }catch (e){
+                                                <PointerProvider onClick={async () => {
+                                                    try {
+                                                        await store.deleteTag(tag.id);
+                                                    } catch (e) {
 
                                                     }
                                                 }}>

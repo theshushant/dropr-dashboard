@@ -3,6 +3,7 @@ import {AppOption} from "../models/AppOption";
 import {optionService} from "../services/OptionService";
 import {Dictionary} from "../services/ApiService";
 import ErrorModel from "../models/ErrorModel";
+import {authService} from "../services/AuthService";
 
 export class OptionStore {
     private static _instance: OptionStore;
@@ -26,15 +27,15 @@ export class OptionStore {
         return this._instance;
     }
 
-    @computed get categories():Array<AppOption> {
+    @computed get categories(): Array<AppOption> {
         return Array.from(this.categoryMap.values());
     }
 
-    @computed get tags():Array<AppOption> {
+    @computed get tags(): Array<AppOption> {
         return Array.from(this.tagMap.values());
     }
 
-    @computed get posters():Array<AppOption> {
+    @computed get posters(): Array<AppOption> {
         return Array.from(this.posterMap.values());
     }
 
@@ -51,9 +52,12 @@ export class OptionStore {
     }
 
     @action
-    async createCategory(body: Dictionary<any>) {
+    async createCategory(body: Dictionary<any>, file: File) {
         try {
             this.isLoading = true;
+            const data = await authService.getUrl("category-image", file.type);
+            await authService.uploadFile(file, data.signed_url);
+            body["url"] = data.file_url;
             const appOption = await optionService.createCategory(body);
             this.categoryMap.set(appOption.id, appOption);
             this.isLoading = false;
@@ -90,9 +94,12 @@ export class OptionStore {
     }
 
     @action
-    async createPoster(body: Dictionary<any>) {
+    async createPoster(body: Dictionary<any>,file:File) {
         try {
             this.isLoading = true;
+            const data = await authService.getUrl("poster", file.type);
+            await authService.uploadFile(file, data.signed_url);
+            body["url"] = data.file_url;
             const appOption: AppOption = await optionService.createPoster(body);
             this.posterMap.set(appOption.id, appOption);
             this.isLoading = false;

@@ -1,6 +1,5 @@
 import * as axios from "axios";
 import {AxiosInstance} from "axios";
-import ErrorModel from "../models/ErrorModel";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -113,12 +112,34 @@ class ApiService {
     }
 
     private _throwError(err: any): Error {
+        console.log("error here 1",err.response,"data",err.response.data);
         if (err.response && err.response.data) {
+            if(err?.response?.data?.errorCode == '703'){
+                 localStorage.clear();
+            }
             throw err.response.data ;
         } else {
             console.log("error here 1");
             throw err;
         }
+    }
+
+    upload<T>(uri: string, data: any): Promise<T> {
+        const headers = {
+            headers: {
+                "Content-Type": "image/*",
+            },
+        };
+        return this.axiosInstance
+            .put(uri, data, headers)
+            .then((response) => response.data)
+            .catch((err) => {
+                if (err.response && err.response.data) {
+                    throw err.response.data;
+                } else {
+                    throw err;
+                }
+            });
     }
 }
 

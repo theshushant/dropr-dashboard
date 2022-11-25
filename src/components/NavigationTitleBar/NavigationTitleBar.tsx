@@ -5,7 +5,7 @@ import CustomTypography from "../CustomTypography/CustomTypography";
 import {GlobalProps} from "../../screen/main/App";
 import {inject, observer} from "mobx-react";
 import {useLocation} from "react-router-dom";
-import {useGetCurrentRoutes} from "../../utils/routes";
+import {useGetBreadCrums} from "../../utils/routes";
 
 const RowContainerVersion = styled(RowContainer)`
   justify-content: space-between;
@@ -24,6 +24,7 @@ interface Props extends GlobalProps {
 
 const NavigationTitleBar: React.FC<Props> = (props) => {
     const location = useLocation();
+    const data = useGetBreadCrums(location.pathname);
     return <RowContainerVersion>
         <CustomTypography
             variant="h4"
@@ -31,7 +32,7 @@ const NavigationTitleBar: React.FC<Props> = (props) => {
             color={props.theme.colors.blackColorOpacity5}
             textAlign={"center"}
         >
-            {useGetCurrentRoutes(location.pathname)}
+            {data.main}
         </CustomTypography>
         <FlexContainerVersion>
             <CustomTypography
@@ -40,16 +41,7 @@ const NavigationTitleBar: React.FC<Props> = (props) => {
                 color={props.theme.colors.greyColor}
                 textAlign={"center"}
             >
-                Employees
-            </CustomTypography>
-
-            <CustomTypography
-                variant="h5"
-                fontWeight={"bold"}
-                color={props.theme.colors.greyShadowColor}
-                textAlign={"center"}
-            >
-                {' >'} Create Employees
+                {data.sub}
             </CustomTypography>
         </FlexContainerVersion>
     </RowContainerVersion>

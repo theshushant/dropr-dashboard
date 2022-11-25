@@ -12,7 +12,6 @@ const SlideOpenContainer = styled.div`
   position: fixed;
   top: 5rem;
   right: 0;
-  width: 40%;
   z-index: 200;
   box-shadow: 1px 0 7px rgba(0, 0, 0, 0.5);
   transition: transform 0.5s ease-out;

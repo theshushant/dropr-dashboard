@@ -4,7 +4,7 @@ import styled, {withTheme} from "styled-components";
 import {useParams} from "react-router-dom";
 import {
     ColumnContainer,
-    Divider, PrimaryTableBodyCell,
+    Divider, FlexContainer, PrimaryTableBodyCell,
     RowContainer,
     SpaceX, SpaceY,
     StyledTable, StyledTableContainer,
@@ -22,6 +22,10 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 
 const headings = [
     "Id", "User ID", "Package Type", "Category", "Delivery Partner ID", "Distance", "AMT", "Time Slot", "Order Status", "Pay Status"
+];
+
+const deliveryPartnerHeadings = [
+    "","Name", "Ratings", "Vehicle Number", "Contact", "Distance from the location", "Action"
 ];
 
 const WhiteCard = styled.div`
@@ -42,6 +46,22 @@ const StyledTableContainerVersion = styled(StyledTableContainer)`
   background-color: ${(props: any) => props.theme.colors.whiteColor};
   border-radius: 0.625rem;
 `;
+
+const FlexContainerVersion = styled(FlexContainer)`
+  background-color: ${props => props.theme.colors.whiteColor};
+  padding: 2rem;
+`;
+
+const FlexContainerVersion1 = styled(FlexContainer)`
+  background-color: ${props => props.theme.colors.whiteColor};
+  padding: 2rem;
+  max-width: 20rem;
+`;
+
+const DividerVersion = styled(Divider)`
+margin: 0;
+`;
+
 
 const ViewOrder: React.FC<GlobalProps> = (props) => {
     const {orderId} = useParams();
@@ -79,7 +99,7 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
             >
                 User Information
             </CustomTypography>
-            <SpaceY height={"2rem"}/>
+            <SpaceY height={"1rem"}/>
             <StyledTableContainerVersion>
                 <StyledTable>
                     <TableHead>
@@ -138,58 +158,86 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
                     </TableBody>
                 </StyledTable>
             </StyledTableContainerVersion>
-            <SpaceY height={"2rem"}/>
+            <SpaceY height={"1rem"}/>
             <RowContainerVersion>
-                <WhiteCard>
-                    <CustomTypography
-                        variant="h5"
-                        fontWeight={"bold"}
-                        color={props.theme.colors.blackColorOpacity5}
-                    >
-                        Order Addresses
-                    </CustomTypography>
+                <FlexContainer flex={2}>
+                   <RowContainer>
+                       <WhiteCard>
+                           <CustomTypography
+                               variant="h5"
+                               fontWeight={"bold"}
+                               color={props.theme.colors.blackColorOpacity5}
+                           >
+                               Order Addresses
+                           </CustomTypography>
 
-                    <Divider/>
-                    <ValuePair keyValue={"Pick-up Address"}
-                               value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
-                    <ValuePair keyValue={"Drop Off Address"}
-                               value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
-                </WhiteCard>
-                <SpaceX width={"2rem"}></SpaceX>
-                <WhiteCard>
-                    <CustomTypography
-                        variant="h5"
-                        fontWeight={"bold"}
-                        color={props.theme.colors.blackColorOpacity5}
-                    >
-                        Order Addresses
-                    </CustomTypography>
+                           <Divider/>
+                           <ValuePair keyValue={"Pick-up Address"}
+                                      value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
+                           <ValuePair keyValue={"Drop Off Address"}
+                                      value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
+                       </WhiteCard>
+                       <SpaceX width={"2rem"}></SpaceX>
+                       <WhiteCard >
+                           <CustomTypography
+                               variant="h5"
+                               fontWeight={"bold"}
+                               color={props.theme.colors.blackColorOpacity5}
+                           >
+                               Order Addresses
+                           </CustomTypography>
 
-                    <Divider/>
-                    <ValuePair keyValue={"Pick-up Address"}
-                               value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
-                    <ValuePair keyValue={"Drop Off Address"}
-                               value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
-                </WhiteCard>
+                           <Divider/>
+                           <ValuePair keyValue={"Pick-up Address"}
+                                      value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
+                           <SpaceY height={"1rem"}/>
+                           <ValuePair keyValue={"Drop Off Address"}
+                                      value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
+                           <SpaceY height={"2rem"}/>
+                       </WhiteCard>
+                   </RowContainer>
+                </FlexContainer>
                 <SpaceX width={"2rem"}/>
-                <WhiteCard>
+                <FlexContainerVersion1 flex={1}>
                     <CustomTypography
                         variant="h5"
                         fontWeight={"bold"}
                         color={props.theme.colors.blackColorOpacity5}
                     >
-                        Order Addresses
+                        Map
                     </CustomTypography>
                     <Divider/>
-                    <ValuePair keyValue={"Pick-up Address"}
-                               value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
-                    <ValuePair keyValue={"Drop Off Address"}
-                               value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
-                </WhiteCard>
-
+                    <ValuePair keyValue={"Name"}
+                               value={order?.user?.name ?? "Nil"}/>
+                    <ValuePair keyValue={"Mobile Number"}
+                               value={order?.user?.phone_number ?? "Nil"}/>
+                    <ValuePair keyValue={"Email Address"}
+                               value={order?.user?.email ?? "Nil"}/>
+                    <ValuePair keyValue={"Address"}
+                               value={order?.pickupAddress?.house_number ?? "Nil"}/>
+                </FlexContainerVersion1>
             </RowContainerVersion>
-           <RowContainer>
-               <WhiteCard>
+           <RowContainerVersion>
+               <FlexContainerVersion flex={2}>
+                   <CustomTypography
+                       variant="h5"
+                       fontWeight={"bold"}
+                       color={props.theme.colors.blackColorOpacity5}
+                   >
+                       Assign a Delivery Partner
+                   </CustomTypography>
+                   <Divider/>
+                   <StyledTableRow>
+                       {deliveryPartnerHeadings.map((heading, index) => (
+                           <TableHeadCellVersion align="left" key={heading + "" + index}>
+                               {heading}
+                           </TableHeadCellVersion>
+                       ))}
+                   </StyledTableRow>
+                   <DividerVersion/>
+               </FlexContainerVersion>
+               <SpaceX width={"2rem"}/>
+               <FlexContainerVersion1 flex={1}>
                    <CustomTypography
                        variant="h5"
                        fontWeight={"bold"}
@@ -206,27 +254,8 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
                               value={order?.user?.email ?? "Nil"}/>
                    <ValuePair keyValue={"Address"}
                               value={order?.pickupAddress?.house_number ?? "Nil"}/>
-               </WhiteCard>
-               <SpaceX width={"2rem"}></SpaceX>
-               <WhiteCard>
-                   <CustomTypography
-                       variant="h5"
-                       fontWeight={"bold"}
-                       color={props.theme.colors.blackColorOpacity5}
-                   >
-                       User Information
-                   </CustomTypography>
-                   <Divider/>
-                   <ValuePair keyValue={"Name"}
-                              value={order?.user?.name ?? "Nil"}/>
-                   <ValuePair keyValue={"Mobile Number"}
-                              value={order?.user?.phone_number ?? "Nil"}/>
-                   <ValuePair keyValue={"Email Address"}
-                              value={order?.user?.email ?? "Nil"}/>
-                   <ValuePair keyValue={"Address"}
-                              value={order?.pickupAddress?.house_number ?? "Nil"}/>
-               </WhiteCard>
-           </RowContainer>
+               </FlexContainerVersion1>
+           </RowContainerVersion>
         </ColumnContainer>
     );
 }

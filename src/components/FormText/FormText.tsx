@@ -20,6 +20,8 @@ interface Props {
     borderRadius?: string;
     textColor?: string;
     iconChild?: React.ReactNode;
+    showError?: boolean;
+    display?:"none"|string;
 }
 
 const InputContainer = styled.div`
@@ -67,13 +69,16 @@ const FormText: React.FC<Props> = (props: Props) => {
         backgroundColor: props.backgroundColor,
         borderRadius: props.borderRadius,
         color: props.textColor,
+        display: props.display,
     };
 
     const containerStyle = {
         margin: props?.margin,
+        display:props.display,
     };
 
     const disabled = props.disabled ?? false;
+    const showError = props.showError ?? false;
 
     return (
         <ColumnContainer>
@@ -108,6 +113,9 @@ const FormText: React.FC<Props> = (props: Props) => {
                 />}
             </InputContainer>
             {!disabled
+                ? props.error && <CustomErrorMessage>{props.error}</CustomErrorMessage>
+                : null}
+            {showError
                 ? props.error && <CustomErrorMessage>{props.error}</CustomErrorMessage>
                 : null}
         </ColumnContainer>

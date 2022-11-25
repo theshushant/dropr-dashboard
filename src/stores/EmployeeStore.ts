@@ -2,6 +2,7 @@ import {action, computed, makeObservable, observable} from "mobx";
 import {User} from "../models/UserModel";
 import {employeeService} from "../services/EmployeeService";
 import {Dictionary} from "../services/ApiService";
+import {authService} from "../services/AuthService";
 
 export class EmployeeStore {
     private static _instance: EmployeeStore;
@@ -42,6 +43,9 @@ export class EmployeeStore {
     async getEmployeeById(id: number) {
         try {
             this.isLoading = true;
+            if (this.employeeMap.size < 1) {
+                await this.fetchEmployees();
+            }
             const user: User = await employeeService.getEmployeeById(id);
             this.employeeMap.set(user.id, user);
             this.isLoading = false;
@@ -66,12 +70,30 @@ export class EmployeeStore {
     }
 
     @action
-    async createEmployee(body: Dictionary<any>) {
+    async createEmployee(body: Dictionary<any>, driverLicense: File, registrationCertificate: File, vehiclePlate: File) {
         try {
-            if(this.employeeMap.size <1){
-               await this.fetchEmployees();
+            if (this.employeeMap.size < 1) {
+                await this.fetchEmployees();
             }
             this.isLoading = true;
+            // let data = await authService.getUrl("profile-image", driverLicense.type);
+            // await authService.uploadFile(driverLicense, data.signed_url);
+            // body["driver_license"] = data.file_url;
+
+            // data = await authService.getUrl("profile-image", registrationCertificate.type);
+            // await authService.uploadFile(registrationCertificate, data.signed_url);
+            // body["registration_certificate"] = data.file_url;
+
+            // data = await authService.getUrl("profile-image", vehiclePlate.type);
+            // await authService.uploadFile(vehiclePlate, data.signed_url);
+            // body["vehicle_plate"] = data.file_url;
+            let body1:Dictionary<any> = {};
+            body1["vehicle_plate"] ='https://dropr-bucket.s3.us-east-1.amazonaws.com/category-image/cGdXkXLoGVSn';
+            body1["driver_license"] ='https://dropr-bucket.s3.us-east-1.amazonaws.com/category-image/cGdXkXLoGVSn';
+            body1["registration_certificate"] ='https://dropr-bucket.s3.us-east-1.amazonaws.com/category-image/cGdXkXLoGVSn';
+                body["document_urls"] = body1;
+
+
             const user: User = await employeeService.createEmployee(body);
             this.employeeMap.set(user.id, user);
             this.isLoading = false;

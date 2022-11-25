@@ -24,6 +24,7 @@ const theme = {
         successColor: "rgba(0, 144, 69, 1)",
         greyColor: "rgb(217,217,217)",
         lightBackgroundColor: "rgb(251, 252, 253)",
+        uploadBackgroundColor: "rgb(251, 240, 237)",
 
         primaryDarkColor: "rgb(20,155,165)",
         surfSideRedColor: "rgb(206,16,61)",
