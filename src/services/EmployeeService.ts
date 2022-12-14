@@ -41,7 +41,7 @@ class EmployeeService {
     }
 
     async updateEmployee(id: number, body: Dictionary<any>): Promise<User> {
-        const response = await apiService.put<any>("/employees/" + id, true, body);
+        const response = await apiService.put<any>("/employees/" + id, true, body,true);
         return response.data;
     }
 }
