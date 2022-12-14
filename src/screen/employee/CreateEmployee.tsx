@@ -29,6 +29,10 @@ const RowContainerVersion2 = styled(RowContainer)`
   justify-content: end;
 `;
 
+const NavIcon = styled.img`
+  height: 2.5rem;
+`;
+
 
 const CreateEmployee: React.FC<GlobalProps> = (props) => {
 
@@ -73,7 +77,6 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                     await store.createEmployee({
                         "name": name,
                         "email": values.email,
-                        "password": "secret",
                         "is_active": values.isActive,
                         "phone_number": values.phoneNumber,
                         "role": values.role,
@@ -246,6 +249,7 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                                         console.log(file.name, file.type, file.size);
                                                         formikProps.values.vehiclePlateNumber = file.name;
                                                         setVehiclePlateNumberFile(file);
+                                                        console.log(formikProps.values.vehiclePlateNumber);
                                                     }} child={<IoMdAttach size={"1.5rem"} onClick={() => {
                                                     }}/>}/>}
                                                     error={
@@ -277,6 +281,8 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                                         formikProps.touched.phoneNumber && formikProps.errors.phoneNumber
                                                     }
                                                     label={"Phone Number"}/>
+
+                                                <NavIcon src={vehiclePlateNumber}/>
                                             </ColumnContainer>
                                         </RowContainer>
                                     </ColumnContainerVersion>
@@ -285,7 +291,9 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
                                             borderRadius="0"
                                             variant={"outlined"}
                                             onClick={() => {
-                                                // authService.getUrl();
+                                                navigate(
+                                                    "/employees"
+                                                );
                                             }}
                                             type={"button"}
                                         >

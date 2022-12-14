@@ -1,4 +1,5 @@
 import {observable} from "mobx";
+import {DocumentUrl} from "./DocumentUrl";
 
 export class User {
     @observable __type!: string;
@@ -24,6 +25,7 @@ export class User {
     @observable is_verified: boolean = false;
 
     @observable role!: string;
+    @observable document_urls!: DocumentUrl;
 
 
     getId(): string | number {

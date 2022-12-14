@@ -84,9 +84,7 @@ const AlignCenter = styled.div`
   align-self: center;
 `;
 
-const StyledToastContainer = styled(ToastContainer).attrs({
-    // custom props
-})`
+const StyledToastContainer = styled(ToastContainer).attrs({})`
   .Toastify__toast--error {
     background-color: ${props => props.theme.colors.surfSideRedColor};
     font-size: 1rem;
@@ -114,7 +112,7 @@ const StyledTable = styled(Table)`
 const StyledTableContainer = styled(TableContainer)`
   overflow-y: scroll;
   overflow-x: scroll;
-  
+
   ::-webkit-scrollbar {
     //width: 6.25rem;
     height: 0.5rem;

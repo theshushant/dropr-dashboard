@@ -1,6 +1,6 @@
 import {apiService} from "./ApiService";
 import {toast} from "react-toastify";
-import {User} from "../models/UserModel";
+import {User} from "../models/user/UserModel";
 import {Order} from "../models/OrderModel";
 
 class OrderService {

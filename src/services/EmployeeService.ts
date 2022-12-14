@@ -1,7 +1,5 @@
 import {apiService, Dictionary} from "./ApiService";
-import {toast} from "react-toastify";
-import {User} from "../models/UserModel";
-import {AppOption} from "../models/AppOption";
+import {User} from "../models/user/UserModel";
 
 class EmployeeService {
     static getInstance(): EmployeeService {
@@ -26,8 +24,8 @@ class EmployeeService {
         return result;
     }
 
-    async getEmployeeById(id:number): Promise<User> {
-        const response = await apiService.get<any>("/employees/"+id, true);
+    async getEmployeeById(id: number): Promise<User> {
+        const response = await apiService.get<any>("/employees/" + id, true);
         console.log("here response is this " + response.toString())
         return response.data;
     }
@@ -39,6 +37,11 @@ class EmployeeService {
 
     async createEmployee(body: Dictionary<any>): Promise<User> {
         const response = await apiService.post<any>("/employees", true, body);
+        return response.data;
+    }
+
+    async updateEmployee(id: number, body: Dictionary<any>): Promise<User> {
+        const response = await apiService.put<any>("/employees/" + id, true, body);
         return response.data;
     }
 }

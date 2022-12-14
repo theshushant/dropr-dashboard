@@ -1,6 +1,6 @@
-import {observable} from "mobx";
+import {computed, observable} from "mobx";
 
-export class Address  {
+export class Address {
 
     @observable id!: number;
 
@@ -22,10 +22,9 @@ export class Address  {
 
     @observable landmark!: string;
 
-    @observable latitude?:string;
+    @observable latitude?: string;
 
-    @observable longitude?:string;
-
+    @observable longitude?: string;
 
 
     getId(): string | number {

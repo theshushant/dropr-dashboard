@@ -1,5 +1,5 @@
 import {observable} from "mobx";
-import { User } from "./UserModel";
+import { User } from "./user/UserModel";
 import {Address} from "./AddressModel";
 
 export class Order{
