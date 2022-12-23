@@ -1,5 +1,5 @@
 import {apiService} from "./ApiService";
-import {User} from "../models/UserModel";
+import {User} from "../models/user/UserModel";
 import FileModal from "../models/FileModal";
 import axios from "axios";
 

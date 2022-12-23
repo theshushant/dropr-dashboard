@@ -12,6 +12,7 @@ import Logo from "../../assets/Logo.svg";
 import LabelledCheckBox from "../../components/LabelledCheckBox/LabelledCheckBox";
 import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const FlexContainerLoginVersion = styled(FlexContainer)`
   margin: 0 5rem;

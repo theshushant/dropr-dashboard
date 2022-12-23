@@ -1,5 +1,6 @@
 import * as axios from "axios";
 import {AxiosInstance} from "axios";
+import {errorService} from "./ErrorService";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -116,6 +117,7 @@ class ApiService {
         if (err.response && err.response.data) {
             if(err?.response?.data?.errorCode == '703'){
                  localStorage.clear();
+                 errorService.setError("Invalid Token! Please login again");
             }
             throw err.response.data ;
         } else {

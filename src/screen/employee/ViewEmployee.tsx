@@ -3,7 +3,7 @@ import styled, {withTheme} from "styled-components";
 import {GlobalProps} from "../main/App";
 import React, {useEffect, useState} from "react";
 import CustomGreyBgCard from "../../components/CustomGreyBgCard/CustomGreyBgCard";
-import {ColumnContainer, FlexContainer, RowContainer, SpaceX, SpaceY} from "../../utils/globals";
+import {ColumnContainer, FlexContainer, PointerProvider, RowContainer, SpaceX, SpaceY} from "../../utils/globals";
 import {Form, Formik} from "formik";
 import FormText from "../../components/FormText/FormText";
 import * as Yup from "yup";
@@ -13,7 +13,7 @@ import ChangePhoto from "../../components/ChangePhoto/ChangePhoto";
 import ToggleSwitch from "../../components/ToggleButton/ToggleButton";
 import {useNavigate, useParams} from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
-import {User} from "../../models/UserModel";
+import {User} from "../../models/user/UserModel";
 import {toNumber} from "lodash";
 
 
@@ -30,6 +30,10 @@ const RowContainerVersion2 = styled(RowContainer)`
   justify-content: end;
 `;
 
+const NavIcon = styled.img`
+  height: 2.5rem;
+`;
+
 
 const ViewEmployee: React.FC<GlobalProps> = (props) => {
 
@@ -40,6 +44,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
 
     const {employeeId} = useParams();
     const [user, setUser] = useState(new User());
+    const [enableEditing, setEnableEditing] = useState(true);
 
     console.log(employeeId);
     useEffect(() => {
@@ -57,6 +62,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
 
     return (
         <Formik
+            enableReinitialize={true}
             initialValues={{
                 email: user.email ?? "",
                 phoneNumber: user.phone_number ?? "",
@@ -65,6 +71,9 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                 username: user.name ?? "",
                 firstname: user.name?.split(" ") ?? "",
                 lastname: user.name?.split(" ").pop() ?? "",
+                driverLicense: user.document_urls?.driver_license?.length > 0 ? user.document_urls.driver_license[0] : "",
+                registrationCertificate: user.document_urls?.registration_certificate?.length > 0 ? user.document_urls.registration_certificate[0] : "",
+                vehiclePlateNumber: user.document_urls?.vehicle_plate?.length > 0 ? user.document_urls.vehicle_plate[0] : "",
             }}
             validationSchema={Yup.object().shape({
                 email: Yup.string()
@@ -76,8 +85,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
             })}
             onSubmit={async values => {
                 try {
-                    const name = values.firstname + values.lastname;
-                    console.log(values.isActive)
+                    console.log("working this");
                     // await store.createEmployee({
                     //     "name": name,
                     //     "email": values.email,
@@ -86,13 +94,87 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                     //     "phone_number": values.phoneNumber,
                     //     "role": values.role,
                     // });
-                    navigate("/employees");
                 } catch (e: any) {
                     alert(e.message);
                 }
             }}>
             {(formikProps) => (
                 <Form>
+                    <PointerProvider onClick={() => {
+                        navigate(
+                            "/employees"
+                        );
+                    }
+                    }>
+                        <CustomTypography
+                            variant="body1"
+                            fontWeight={"bold"}
+                            color={props.theme.colors.blackColorOpacity5}
+                        >
+                            Back
+                        </CustomTypography>
+                    </PointerProvider>
+                    {enableEditing ? <RowContainerVersion2>
+                            <SpaceX width={"2rem"}/>
+                            <CustomButton
+                                type={"button"}
+                                borderRadius="0"
+                                onClick={() => {
+                                    setEnableEditing(false);
+                                }
+                                }
+                            >
+                                Edit
+                            </CustomButton>
+                        </RowContainerVersion2> :
+                        <RowContainerVersion2>
+                            <CustomButton
+                                type={"button"}
+                                borderRadius="0"
+                                variant={"outlined"}
+                                onClick={() => {
+                                    setEnableEditing(true);
+                                }
+                                }
+                            >
+                                Cancel
+                            </CustomButton>
+                            <SpaceX width={"2rem"}/>
+                            <CustomButton
+                                type="submit"
+                                borderRadius="0"
+                                isSubmitting={formikProps.isSubmitting}
+                                disabled={formikProps.isSubmitting}
+                                onClick={async () => {
+                                    formikProps.setSubmitting(true);
+                                    console.log("working this");
+                                    if (user != null) {
+                                        const name = formikProps.values.firstname + formikProps.values.lastname;
+
+                                        await store.updateEmployee(
+                                            user!.id!,
+                                            {
+                                                "name": name,
+                                                "email": formikProps.values.email,
+                                                "is_active": formikProps.values.isActive,
+                                                "phone_number": formikProps.values.phoneNumber,
+                                                "role": formikProps.values.role,
+                                                "document_urls": {
+                                                    "driver_license": [formikProps.values.driverLicense],
+                                                    "registration_certificate": [formikProps.values.registrationCertificate],
+                                                    "vehicle_plate": [formikProps.values.vehiclePlateNumber]
+                                                }
+                                            },
+                                        );
+                                    }
+                                    formikProps.setSubmitting(false);
+                                }
+                                }
+                            >
+                                Save
+                            </CustomButton>
+                        </RowContainerVersion2>}
+                    <SpaceY height={"1rem"}/>
                     <RowContainerVersion>
                         <FlexContainer flex={1}>
                             <CustomGreyBgCard color={props.theme.colors.whiteColor} padding={"2rem 4rem"}>
@@ -123,7 +205,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                     </CustomTypography>
                                     <SpaceY height={"4rem"}/>
                                     <FormText
-                                        disabled={true}
+                                        disabled={enableEditing}
                                         id={"username"}
                                         name={"username"}
                                         onChange={formikProps.handleChange}
@@ -134,7 +216,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                         }
                                         label={"Username"}/>
                                     <FormText
-                                        disabled={true}
+                                        disabled={enableEditing}
                                         id={"role"}
                                         name={"role"}
                                         onChange={formikProps.handleChange}
@@ -173,13 +255,13 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                             fontWeight={"bold"}
                                             color={props.theme.colors.blackColorOpacity5}
                                         >
-                                           Personal Information
+                                            Personal Information
                                         </CustomTypography>
                                         <SpaceY height={"2rem"}/>
                                         <RowContainer>
                                             <ColumnContainer>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"firstname"}
                                                     name={"firstname"}
                                                     onChange={formikProps.handleChange}
@@ -190,7 +272,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                                     // }
                                                     label={"First Name"}/>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"email"}
                                                     name={"email"}
                                                     onChange={formikProps.handleChange}
@@ -201,33 +283,33 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                                     }
                                                     label={"Email"}/>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"driverLicense"}
                                                     name={"driverLicense"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.driverLicense}
                                                     placeholder={"Type Here"}
                                                     // error={
                                                     //     formikProps.touched.username && formikProps.errors.username
                                                     // }
                                                     label={"Driver’s License"}/>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"registrationCertificate*"}
                                                     name={"registrationCertificate"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.registrationCertificate}
                                                     placeholder={"Type Here"}
                                                     // error={
                                                     //     formikProps.touched.username && formikProps.errors.username
                                                     // }
                                                     label={"Registration Certificate"}/>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"vehiclePlateNumber"}
                                                     name={"vehiclePlateNumber"}
                                                     onChange={formikProps.handleChange}
-                                                    value={""}
+                                                    value={formikProps.values.vehiclePlateNumber}
                                                     placeholder={"Type Here"}
                                                     // error={
                                                     //     formikProps.touched.username && formikProps.errors.username
@@ -237,7 +319,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                             <SpaceX width={"4rem"}/>
                                             <ColumnContainer>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"lastname"}
                                                     name={"lastname"}
                                                     onChange={formikProps.handleChange}
@@ -248,7 +330,7 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                                     }
                                                     label={"Last Name"}/>
                                                 <FormText
-                                                    disabled={true}
+                                                    disabled={enableEditing}
                                                     id={"phoneNumber"}
                                                     name={"phoneNumber"}
                                                     onChange={formikProps.handleChange}
@@ -258,27 +340,13 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                                                         formikProps.touched.phoneNumber && formikProps.errors.phoneNumber
                                                     }
                                                     label={"Phone Number"}/>
+
+                                                <NavIcon src={formikProps.values.driverLicense}/>
+                                                <NavIcon src={formikProps.values.registrationCertificate}/>
+                                                <NavIcon src={formikProps.values.vehiclePlateNumber}/>
                                             </ColumnContainer>
                                         </RowContainer>
                                     </ColumnContainerVersion>
-                                    {/*<RowContainerVersion2>*/}
-                                    {/*    <CustomButton*/}
-                                    {/*        type="submit"*/}
-                                    {/*        borderRadius="0"*/}
-                                    {/*        variant={"outlined"}*/}
-                                    {/*    >*/}
-                                    {/*        Cancel*/}
-                                    {/*    </CustomButton>*/}
-                                    {/*    <SpaceX width={"2rem"}/>*/}
-                                    {/*    <CustomButton*/}
-                                    {/*        type="submit"*/}
-                                    {/*        borderRadius="0"*/}
-                                    {/*        isSubmitting={formikProps.isSubmitting}*/}
-                                    {/*        disabled={formikProps.isSubmitting}*/}
-                                    {/*    >*/}
-                                    {/*        Create Employee*/}
-                                    {/*    </CustomButton>*/}
-                                    {/*</RowContainerVersion2>*/}
                                 </ColumnContainerVersion>
                             </CustomGreyBgCard>
                         </FlexContainer>

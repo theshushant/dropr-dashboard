@@ -18,6 +18,7 @@ import DroprLogo from "../../assets/DroprD.svg";
 import AppTagOption from "../slider/Tag/AppTagOption";
 import ViewEmployee from "../employee/ViewEmployee";
 import ViewOrder from "../order/ViewOrder";
+import {errorService} from "../../services/ErrorService";
 
 const NavIcon = styled.img`
   width: 6rem;
@@ -30,10 +31,11 @@ const HomeRowContainer = styled(RowContainer)`
 const Home: React.FC = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        if(!localStorage.getItem("auth_token")){
+        if (!localStorage.getItem("auth_token")) {
             navigate('/login');
+            errorService.voidError();
         }
-    }, );
+    }, [errorService.error]);
 
     return (
         <NoScrollContainer>
@@ -53,9 +55,9 @@ const Home: React.FC = () => {
                 </HomeRowContainer>
 
                 <RowContainer>
-                   <FlexContainer flex={1}>
-                       <NavigationBar/>
-                   </FlexContainer>
+                    <FlexContainer flex={1}>
+                        <NavigationBar/>
+                    </FlexContainer>
                     {/*<SideDrawer isOpen={false}/>*/}
                     <ColumnContainer>
                         <NavigationTitleBar/>

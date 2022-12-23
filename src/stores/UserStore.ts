@@ -1,6 +1,6 @@
 import {action, makeObservable, observable} from "mobx";
 import {LoginState} from "../enums/LoginStatus";
-import {User} from "../models/UserModel";
+import {User} from "../models/user/UserModel";
 import {authService} from "../services/AuthService";
 
 export class UserStore {
