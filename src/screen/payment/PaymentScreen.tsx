@@ -40,6 +40,11 @@ const NavIcon = styled.img`
 
 `;
 
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  max-height: 75vh;
+`;
+
+
 const PaymentScreen: React.FC<Props> = (props) => {
     return (
         <WhiteCard>
@@ -52,7 +57,7 @@ const PaymentScreen: React.FC<Props> = (props) => {
                     />
                     <FlexContainer flex={3}/>
                 </RowContainerVersion>
-                <StyledTableContainer>
+                <StyledTableContainerVersion>
                     <StyledTable>
                         <TableHead>
                             <StyledTableRow>
@@ -87,7 +92,7 @@ const PaymentScreen: React.FC<Props> = (props) => {
                             ))}
                         </TableBody>
                     </StyledTable>
-                </StyledTableContainer>
+                </StyledTableContainerVersion>
             </ColumnContainer>
         </WhiteCard>
     );

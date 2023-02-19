@@ -114,7 +114,7 @@ const StyledTableContainer = styled(TableContainer)`
   overflow-x: scroll;
 
   ::-webkit-scrollbar {
-    //width: 6.25rem;
+    width: 0.5rem;
     height: 0.5rem;
   }
 

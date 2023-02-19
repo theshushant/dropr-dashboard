@@ -31,6 +31,15 @@ const WhiteCard = styled.div`
   background-color: ${props => props.theme.colors.whiteColor};
 `;
 
+const EmptyData = styled.div`
+  height: 50rem;
+  width: 100%;
+`;
+
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  height: 75vh;
+`;
+
 
 const OrderScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.orderStore!;
@@ -49,7 +58,7 @@ const OrderScreen: React.FC<GlobalProps> = (props) => {
     }
 
     return (
-        <WhiteCard>
+        <WhiteCard key={"OrderScreen"}>
             <ColumnContainer>
                 <RowContainerVersion>
                     <SearchField
@@ -102,8 +111,8 @@ const OrderScreen: React.FC<GlobalProps> = (props) => {
 
                 </RowContainerVersion>
                 {store.orders.length < 1
-                    ? (<></>)
-                    : (<StyledTableContainer>
+                    ? (<EmptyData>No Data available </EmptyData>)
+                    : (<StyledTableContainerVersion>
                         <StyledTable>
                             <TableHead>
                                 <StyledTableRow>
@@ -162,7 +171,7 @@ const OrderScreen: React.FC<GlobalProps> = (props) => {
                                 ))}
                             </TableBody>
                         </StyledTable>
-                    </StyledTableContainer>)}
+                    </StyledTableContainerVersion>)}
             </ColumnContainer>
         </WhiteCard>
     );

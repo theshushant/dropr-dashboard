@@ -37,6 +37,10 @@ const NavIcon = styled.img`
   height: 2.5rem;
 `;
 
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  max-height: 75vh;
+`;
+
 const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
     const [open, setOpen] = useState(false);
@@ -69,7 +73,7 @@ const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
                     </RowContainerVersion>
                     {store.posters.length < 1
                         ? (<></>)
-                        : (<StyledTableContainer>
+                        : (<StyledTableContainerVersion>
                             <StyledTable>
                                 <TableHead>
                                     <StyledTableRow>
@@ -110,7 +114,7 @@ const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
                                     ))}
                                 </TableBody>
                             </StyledTable>
-                        </StyledTableContainer>)}
+                        </StyledTableContainerVersion>)}
                 </ColumnContainer>
             </WhiteCard>
             {open && <SlidingChild isOpen={open}>

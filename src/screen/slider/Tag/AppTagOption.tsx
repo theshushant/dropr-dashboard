@@ -33,6 +33,9 @@ const WhiteCard = styled.div`
   background-color: ${props => props.theme.colors.whiteColor};
 `;
 
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  max-height: 75vh;
+`;
 
 const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
@@ -65,7 +68,7 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
                     </RowContainerVersion>
                     {store.tags.length < 1
                         ? (<></>)
-                        : (<StyledTableContainer>
+                        : (<StyledTableContainerVersion>
                             <StyledTable>
                                 <TableHead>
                                     <StyledTableRow>
@@ -106,7 +109,7 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
                                     ))}
                                 </TableBody>
                             </StyledTable>
-                        </StyledTableContainer>)}
+                        </StyledTableContainerVersion>)}
                 </ColumnContainer>
             </WhiteCard>
             {open && <SlidingChild isOpen={open}>

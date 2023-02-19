@@ -2,7 +2,6 @@ import {action, computed, makeObservable, observable} from "mobx";
 import {AppOption} from "../models/AppOption";
 import {optionService} from "../services/OptionService";
 import {Dictionary} from "../services/ApiService";
-import ErrorModel from "../models/ErrorModel";
 import {authService} from "../services/AuthService";
 
 export class OptionStore {

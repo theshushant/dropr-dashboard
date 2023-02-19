@@ -36,6 +36,10 @@ const NavIcon = styled.img`
   height: 2.5rem;
 `;
 
+const  StyledTableContainerVersion = styled(StyledTableContainer)`
+  max-height: 75vh;
+`;
+
 const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
     const [open, setOpen] = useState(false);
@@ -68,7 +72,7 @@ const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
                     </RowContainerVersion>
                     {store.categories.length < 1
                         ? (<></>)
-                        : (<StyledTableContainer>
+                        : (<StyledTableContainerVersion>
                             <StyledTable>
                                 <TableHead>
                                     <StyledTableRow>
@@ -109,7 +113,7 @@ const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
                                     ))}
                                 </TableBody>
                             </StyledTable>
-                        </StyledTableContainer>)}
+                        </StyledTableContainerVersion>)}
                 </ColumnContainer>
             </WhiteCard>
             {open && <SlidingChild isOpen={open}>

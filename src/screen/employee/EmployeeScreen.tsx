@@ -40,7 +40,7 @@ cursor: pointer;
 `;
 
 const  StyledTableContainerVersion = styled(StyledTableContainer)`
-  height: 70vh;
+  height: 75vh;
 `;
 
 
