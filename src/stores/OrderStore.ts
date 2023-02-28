@@ -1,6 +1,7 @@
 import {action, makeObservable, observable} from "mobx";
 import {orderService} from "../services/OrderService";
 import {Order} from "../models/OrderModel";
+import {Commission} from "../models/Commission";
 
 export class OrderStore {
     private static _instance: OrderStore;
@@ -8,6 +9,8 @@ export class OrderStore {
     @observable isLoading: boolean = false;
 
     @observable orders: Array<Order> = [];
+
+    @observable commissions: Array<Commission> = [];
 
     constructor() {
         makeObservable(this);
@@ -42,6 +45,19 @@ export class OrderStore {
             return order;
         } catch (e) {
             this.isLoading = false;
+            throw e;
+        }
+    }
+
+    @action
+    async getCommissions(order=false,employee=false):Promise<void> {
+        try {
+            this.isLoading = true;
+            this.commissions = await orderService.getCommissions(order,employee);
+            this.isLoading = false;
+        } catch (e) {
+            this.isLoading = false;
+            console.log("here data is this store");
             throw e;
         }
     }

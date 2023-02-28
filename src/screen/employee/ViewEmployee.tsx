@@ -50,6 +50,9 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
     useEffect(() => {
         store.getEmployeeById(toNumber(employeeId)).then((element) => {
             setUser(element)
+        }).catch(e=>{
+            console.log("here error is this "+e.toString());
+            navigate('/login');
         });
 
     }, [employeeId]);
@@ -95,7 +98,11 @@ const ViewEmployee: React.FC<GlobalProps> = (props) => {
                     //     "role": values.role,
                     // });
                 } catch (e: any) {
-                    alert(e.message);
+
+                    if(e?.errorCode == '703')
+                        navigate('/login');
+                    else
+                        alert(e.message);
                 }
             }}>
             {(formikProps) => (

@@ -1,7 +1,7 @@
 import {inject, observer} from "mobx-react";
 import styled, {withTheme} from "styled-components";
 import {GlobalProps} from "../main/App";
-import React from "react";
+import React, {useEffect} from "react";
 import {
     ColumnContainer, FlexContainer,
     PrimaryTableBodyCell, RowContainer,
@@ -12,18 +12,14 @@ import {
 } from "../../utils/globals";
 import SearchField from "../../components/CustomSearchBar/SearchField";
 import {TableBody, TableHead} from "@material-ui/core";
-import InvoiceIcon from "../../assets/invoice.svg";
+import Loader from "../../components/Loader/Loader";
+import {useNavigate} from "react-router-dom";
 
 interface Props extends GlobalProps {
 }
 
 const headings = [
     "Order Id", "Transaction ID", "Amount", "Receipt Number", "Payment Method", "Time", "Date", "Status", "Invoice"
-];
-
-const mockData = [
-    ["1234", "591644527", "$120", "Fragile", "2751052-11", "Apple Pay", "13:56 AM", "Received"],
-    ["1234", "591644527", "$120", "Fragile", "2751052-11", "Apple Pay", "13:56 AM", "Received"],
 ];
 
 const RowContainerVersion = styled(RowContainer)`
@@ -36,16 +32,36 @@ const WhiteCard = styled.div`
   background-color: ${props => props.theme.colors.whiteColor};
 `;
 
-const NavIcon = styled.img`
-
+const EmptyData = styled.div`
+  height: 50rem;
+  width: 100%;
 `;
 
-const  StyledTableContainerVersion = styled(StyledTableContainer)`
+
+const StyledTableContainerVersion = styled(StyledTableContainer)`
   max-height: 75vh;
 `;
 
 
 const PaymentScreen: React.FC<Props> = (props) => {
+    const store = props.store?.orderStore!;
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (store.commissions.length < 1 && !store.isLoading) {
+
+                store.getCommissions().catch(e => {
+                   if(e?.errorCode == '703')
+                    navigate('/login');
+                });
+
+        }
+    }, []);
+
+    if (store.isLoading) {
+        return (
+            <Loader/>
+        );
+    }
     return (
         <WhiteCard>
             <ColumnContainer>
@@ -57,45 +73,58 @@ const PaymentScreen: React.FC<Props> = (props) => {
                     />
                     <FlexContainer flex={3}/>
                 </RowContainerVersion>
-                <StyledTableContainerVersion>
-                    <StyledTable>
-                        <TableHead>
-                            <StyledTableRow>
-                                {headings.map((heading, index) => (
-                                    <TableHeadCell align="left" key={heading + index}>
-                                        {heading}
-                                    </TableHeadCell>
-                                ))}
-                            </StyledTableRow>
-                        </TableHead>
-                        <TableBody>
-                            {mockData.map(row => (
+                {store.commissions.length < 1 ? (<EmptyData>No Data available </EmptyData>) :
+                    <StyledTableContainerVersion>
+                        <StyledTable>
+                            <TableHead>
                                 <StyledTableRow>
-                                    {row.map((data, index) => {
-                                        if (index === 0 || index === 1)
-                                            return (
-                                                <PrimaryTableBodyCell align="left">
-                                                    {data}
-                                                </PrimaryTableBodyCell>
-                                            );
-                                        else
-                                            return (
-                                                <TableBodyCell align="left">
-                                                    {data}
-                                                </TableBodyCell>
-                                            );
-                                    })}
-                                    <TableBodyCell align="left">
-                                        <NavIcon src={InvoiceIcon} style={{}}/>
-                                    </TableBodyCell>
+                                    {headings.map((heading, index) => (
+                                        <TableHeadCell align="left" key={heading + index}>
+                                            {heading}
+                                        </TableHeadCell>
+                                    ))}
                                 </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </StyledTable>
-                </StyledTableContainerVersion>
+                            </TableHead>
+                            <TableBody>
+                                {store.commissions.map((commission, index) => {
+                                    return (<>
+                                        <PrimaryTableBodyCell align="left">
+                                            {commission.id}
+                                        </PrimaryTableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.employee_id}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.commission}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.employee_id}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.employee_id}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.order_id}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.order_id}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.settlement_status}
+                                        </TableBodyCell>
+                                        <TableBodyCell align="left">
+                                            {commission.employee_id}
+                                        </TableBodyCell>
+                                    </>)
+
+                                })}
+                            </TableBody>
+                        </StyledTable>
+                    </StyledTableContainerVersion>}
+
             </ColumnContainer>
         </WhiteCard>
     );
 }
 
-export default inject("store")(observer(withTheme(PaymentScreen)));
+export default inject("store")(withTheme(observer(PaymentScreen)));

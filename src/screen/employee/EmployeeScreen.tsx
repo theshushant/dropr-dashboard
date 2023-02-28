@@ -51,7 +51,10 @@ const EmployeeScreen: React.FC<GlobalProps> = (props) => {
 
     useEffect(() => {
         if (!store.isLoading && store.employees.length < 1) {
-            store.fetchEmployees();
+            store.fetchEmployees().catch(e=>{
+                if(e?.errorCode == '703')
+                    navigate('/login');
+            });
         }
     }, [store]);
 

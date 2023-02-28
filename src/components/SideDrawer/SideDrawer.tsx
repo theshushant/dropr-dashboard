@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface Props {
     isOpen: boolean,
+    children:React.ReactNode,
 }
 const SlideOpenContainer = styled.div`
   height: 100%;
@@ -21,7 +22,7 @@ const SideDrawer: React.FC<Props> = (props) => {
         transform: props.isOpen?"translateX(100%)":"translateX(100%)",
     };
     return (<SlideOpenContainer style={style}>
-Hello
+        {props.children}
     </SlideOpenContainer>);
 };
 

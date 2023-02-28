@@ -11,6 +11,7 @@ import {AiOutlineCloudUpload} from 'react-icons/ai';
 import FileUpload from "../../components/FileUpload/FileUpload";
 import CustomTypography from "../../components/CustomTypography/CustomTypography";
 import FormLabel from "../../components/FormLabel/FormLabel";
+import {useNavigate} from "react-router-dom";
 
 interface Props extends GlobalProps {
     appOption: "Category" | "Poster" | "Tag",
@@ -55,6 +56,7 @@ const RowContainerVersion1 = styled(RowContainer)`
 const AppOptionDialog: React.FC<Props> = (props) => {
     const store = props.store!.optionStore!;
     const [file, setFile] = useState();
+    const navigate = useNavigate();
 
     return (
         <ColumnContainerVersion>
@@ -88,7 +90,10 @@ const AppOptionDialog: React.FC<Props> = (props) => {
                             props.cancelFunction();
 
                         } catch (e: any) {
-                            alert(e.message);
+                            if(e?.errorCode == '703')
+                                navigate('/login');
+                            else
+                                alert(e.message);
                         }
                     }}>
                     {(formikProps) => (

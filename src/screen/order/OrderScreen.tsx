@@ -47,7 +47,10 @@ const OrderScreen: React.FC<GlobalProps> = (props) => {
 
     useEffect(() => {
         if (!store.isLoading && store.orders.length < 1) {
-            store.fetchOrders();
+            store.fetchOrders().catch(e => {
+                if(e?.errorCode == '703')
+                    navigate('/login');
+            });
         }
     }, [store]);
 

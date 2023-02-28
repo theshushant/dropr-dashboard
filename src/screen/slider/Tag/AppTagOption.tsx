@@ -17,6 +17,7 @@ import SlidingChild from "../../../components/SlidingChild/SlidingChild";
 import AppOptionDialog from "../AppOptionDialog";
 import Loader from "../../../components/Loader/Loader";
 import AddIcon from "../../../assets/add.svg";
+import {useNavigate} from "react-router-dom";
 
 
 const headings = [
@@ -40,9 +41,13 @@ const  StyledTableContainerVersion = styled(StyledTableContainer)`
 const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
         if (!store.isLoading && store.tags.length < 1) {
-            store.fetchTags();
+            store.fetchTags().catch(e=>{
+                if(e?.errorCode == '703')
+                    navigate('/login');
+            });
         }
     }, [store]);
 
@@ -98,8 +103,11 @@ const AppTagOptionScreen: React.FC<GlobalProps> = (props) => {
                                                 <PointerProvider onClick={async () => {
                                                     try {
                                                         await store.deleteTag(tag.id);
-                                                    } catch (e) {
-
+                                                    } catch (e:any) {
+                                                        if(e?.errorCode == '703')
+                                                            navigate('/login');
+                                                        else
+                                                            alert(e.message);
                                                     }
                                                 }}>
                                                     <RiDeleteBinLine/>

@@ -116,6 +116,7 @@ class ApiService {
         console.log("error here 1",err.response,"data",err.response.data);
         if (err.response && err.response.data) {
             if(err?.response?.data?.errorCode == '703'){
+                console.log("her data is this before example");
                  localStorage.clear();
                  errorService.setError("Invalid Token! Please login again");
             }

@@ -3,7 +3,7 @@ import styled, {withTheme} from "styled-components";
 import {GlobalProps} from "../../main/App";
 import React, {useEffect, useState} from "react";
 import {
-    ColumnContainer, PointerProvider, PrimaryTableBodyCell,
+    ColumnContainer, PointerProvider,
     RowContainer,
     StyledTable,
     StyledTableContainer,
@@ -17,6 +17,7 @@ import Loader from "../../../components/Loader/Loader";
 import SlidingChild from "../../../components/SlidingChild/SlidingChild";
 import AppOptionDialog from "../AppOptionDialog";
 import AddIcon from "../../../assets/add.svg";
+import {useNavigate} from "react-router-dom";
 
 
 const headings = [
@@ -44,10 +45,14 @@ const  StyledTableContainerVersion = styled(StyledTableContainer)`
 const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!store.isLoading && store.posters.length < 1) {
-            store.fetchPosters();
+            store.fetchPosters().catch(e=>{
+                if(e?.errorCode == '703')
+                    navigate('/login');
+            });
         }
     }, [store]);
 
@@ -100,11 +105,14 @@ const AppPosterOptionScreen: React.FC<GlobalProps> = (props) => {
                                                 {poster.is_active ? "Yes" : "No"}
                                             </TableBodyCell>
                                             <TableBodyCell align="left">
-                                                <PointerProvider onClick={() => {
+                                                <PointerProvider onClick={async () => {
                                                     try {
-                                                        store.deletePoster(poster.id);
-                                                    } catch (e) {
-
+                                                        await store.deletePoster(poster.id);
+                                                    } catch (e: any) {
+                                                        if (e?.errorCode == '703')
+                                                            navigate('/login');
+                                                        else
+                                                            alert(e.message);
                                                     }
                                                 }}>
                                                     <RiDeleteBinLine/>

@@ -19,6 +19,8 @@ import AppTagOption from "../slider/Tag/AppTagOption";
 import ViewEmployee from "../employee/ViewEmployee";
 import ViewOrder from "../order/ViewOrder";
 import {errorService} from "../../services/ErrorService";
+import SideDrawer from "../../components/SideDrawer/SideDrawer";
+import SlidingChild from "../../components/SlidingChild/SlidingChild";
 
 const NavIcon = styled.img`
   width: 6rem;
@@ -31,7 +33,7 @@ const HomeRowContainer = styled(RowContainer)`
 const Home: React.FC = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        if (!localStorage.getItem("auth_token")) {
+        if (!localStorage.getItem("auth_token") && errorService.isTokenInvalid) {
             navigate('/login');
             errorService.voidError();
         }
@@ -56,9 +58,11 @@ const Home: React.FC = () => {
 
                 <RowContainer>
                     <FlexContainer flex={1}>
-                        <NavigationBar/>
+                        {/*<SlidingChild isOpen={true}>*/}
+                            <NavigationBar/>
+                        {/*</SlidingChild>*/}
                     </FlexContainer>
-                    {/*<SideDrawer isOpen={false}/>*/}
+                    {/*<SideDrawer isOpen={false}></SideDrawer>*/}
                     <ColumnContainer>
                         <NavigationTitleBar/>
                         <CustomGreyBgCard padding={"2rem"}>

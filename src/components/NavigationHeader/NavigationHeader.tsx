@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styled, {withTheme} from "styled-components";
 import {ColumnContainer, RowContainer, SpaceX} from "../../utils/globals";
 import SearchField from "../CustomSearchBar/SearchField";
@@ -7,6 +7,7 @@ import {inject, observer} from "mobx-react";
 import CustomTypography from "../CustomTypography/CustomTypography";
 import userAvatarLogo from "../../assets/UserAvatar.svg";
 import {IoMdNotificationsOutline} from "react-icons/io";
+import {useNavigate} from "react-router-dom";
 
 
 const RowContainerVersion = styled(RowContainer)`
@@ -41,6 +42,7 @@ const RowContainerVersion2 = styled(RowContainer)`
 
 const FlexContainerVersion = styled.div`
   flex-grow: 1;
+  cursor: pointer;
 `;
 
 const Image = styled.img`
@@ -53,12 +55,64 @@ const Image = styled.img`
   pointer-events: none;
 `;
 
+
+const StyledUl = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+`;
+
+const StyledLi = styled.li`
+  float: left;
+`;
+
+const DropDownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+`;
+
+const DropDownLi = styled(StyledLi)`
+  display: inline-block;
+
+  &:hover {
+    background-color: red;
+  }
+
+  &:hover ${DropDownContent} {
+    display: block;
+  }
+`;
+
+const SubA = styled.a`
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
 const NavigationHeader: React.FC<GlobalProps> = (props) => {
     const store = props.store?.user!;
+    const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (store.loggedInUser === undefined) {
-            store.getMe();
+            store.getMe().catch(e=>{
+                if(e?.errorCode == '703')
+                    navigate('/login');
+
+            });
         }
     }, [store]);
 
@@ -69,30 +123,47 @@ const NavigationHeader: React.FC<GlobalProps> = (props) => {
         <RowContainerVersion1>
             <IoMdNotificationsOutline size={"2rem"}/>
             <SpaceX width={"1rem"}></SpaceX>
-            <RowContainerVersion2>
-                <Image draggable={false}
-                       src={store.loggedInUser?.profile_pic_url ?? userAvatarLogo}
-                       alt="Profile Image"/>
-                <SpaceX width={"0.5rem"}/>
-                <ColumnContainerVersion>
-                    <CustomTypography
-                        variant="body1"
-                        fontWeight={"bold"}
-                        color={props.theme.colors.blackColorOpacity5}
-                        textAlign={"left"}
-                    >
-                        {store.loggedInUser?.name}
-                    </CustomTypography>
-                    <CustomTypography
-                        variant="body2"
-                        fontWeight={"lighter"}
-                        color={props.theme.colors.blackColorOpacity5}
-                        textAlign={"left"}
-                    >
-                        {store.loggedInUser?.role}
-                    </CustomTypography>
-                </ColumnContainerVersion>
-            </RowContainerVersion2>
+            <StyledUl>
+                <DropDownLi>
+                    <RowContainerVersion2 onClick={() => {
+                        setOpen(!open);
+                    }
+                    }>
+                        <Image draggable={false}
+                               src={store.loggedInUser?.profile_pic_url ?? userAvatarLogo}
+                               alt="Profile Image"/>
+                        <SpaceX width={"0.5rem"}/>
+                        <ColumnContainerVersion>
+                            <CustomTypography
+                                variant="body1"
+                                fontWeight={"bold"}
+                                color={props.theme.colors.blackColorOpacity5}
+                                textAlign={"left"}
+                            >
+                                {store.loggedInUser?.name}
+                            </CustomTypography>
+                            <CustomTypography
+                                variant="body2"
+                                fontWeight={"lighter"}
+                                color={props.theme.colors.blackColorOpacity5}
+                                textAlign={"left"}
+                            >
+                                {store.loggedInUser?.role}
+                            </CustomTypography>
+                        </ColumnContainerVersion>
+                    </RowContainerVersion2>
+                    {open ? <DropDownContent>
+                        {" "}
+                        <SubA onClick={() => {
+                            navigate('/');
+                        }}>Profile</SubA>
+                        <SubA onClick={() => {
+
+                        }}>Sign Out</SubA>
+                    </DropDownContent> : <></>}
+                </DropDownLi>
+            </StyledUl>
+
         </RowContainerVersion1>
     </RowContainerVersion>;
 };

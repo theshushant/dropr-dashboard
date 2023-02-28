@@ -156,7 +156,7 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
                                     textColor={props.theme.colors.disabledIconColor}
                                     disabled={true}
                                 >
-                                    Completed
+                                    {order.order_status}
                                 </CustomButton>
                             </TableBodyCell>
                             <SuccessTableBodyCell align="left">
@@ -181,9 +181,9 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
 
                             <Divider/>
                             <ValuePair keyValue={"Pick-up Address"}
-                                       value={"1B howard Street, 1st Floor, whitefeilds, WA 2471501"}/>
+                                       value={order.pickupAddress!=undefined?order.pickupAddress.getAddress:"-"}/>
                             <ValuePair keyValue={"Drop Off Address"}
-                                       value={"28A, Cross river Mall, 1st floor, kakardomma court, central business disctrict, shada, 2074151"}/>
+                                       value={order?.dropAddress?.getAddress??"-"}/>
                         </WhiteCard>
                         <SpaceX width={"2rem"}></SpaceX>
                         <WhiteCard>
@@ -197,7 +197,9 @@ const ViewOrder: React.FC<GlobalProps> = (props) => {
 
                             <Divider/>
                             <ValuePair keyValue={"Pick-up Address"}
-                                       value={order?.pickupAddress != undefined ? order?.pickupAddress.house_number + ", " + order?.pickupAddress.building_name + ", " + order?.pickupAddress.landmark : ""}/>
+                                       value=
+                                           {order?.pickupAddress != undefined ? order?.pickupAddress.house_number + ", " + order?.pickupAddress.building_name + ", " + order?.pickupAddress.landmark : ""}
+                            />
                             <SpaceY height={"1rem"}/>
                             <ValuePair keyValue={"Drop Off Address"}
                                        value={order?.dropAddress != undefined ? order?.dropAddress.house_number + ", " + order?.dropAddress.building_name + ", " + order?.dropAddress.landmark : ""}/>

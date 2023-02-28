@@ -84,8 +84,10 @@ const CreateEmployee: React.FC<GlobalProps> = (props) => {
 
                     navigate("/employees");
                 } catch (e: any) {
-                    console.log("here error is this ", e);
-                    alert(e.message);
+                    if(e?.errorCode == '703')
+                        navigate('/login');
+                    else
+                         alert(e.message);
                 }
             }}>
             {(formikProps) => (

@@ -26,6 +26,20 @@ export class Address {
 
     @observable longitude?: string;
 
+    get getAddress():string {
+        let address:string = "";
+        if(this.building_name!=null){
+            address+=this.building_name+", ";
+        }
+        if(this.house_number!=null){
+            address+=this.house_number+",  ";
+        }
+        if(this.landmark!=null){
+            address+=this.landmark;
+        }
+
+        return address;
+    }
 
     getId(): string | number {
         return this.id;

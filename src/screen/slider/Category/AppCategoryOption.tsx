@@ -17,6 +17,7 @@ import Loader from "../../../components/Loader/Loader";
 import SlidingChild from "../../../components/SlidingChild/SlidingChild";
 import AppOptionDialog from "../AppOptionDialog";
 import AddIcon from "../../../assets/add.svg";
+import {useNavigate} from "react-router-dom";
 
 const headings = [
     "Name", "Icon", "Created At", "Is Active", "Actions"
@@ -43,10 +44,14 @@ const  StyledTableContainerVersion = styled(StyledTableContainer)`
 const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
     const store = props.store!.optionStore!;
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!store.isLoading && store.categories.length < 1) {
-            store?.fetchCategories();
+            store?.fetchCategories().catch(e=>{
+                if(e?.errorCode == '703')
+                    navigate('/login');
+            });
         }
     }, [store]);
 
@@ -100,11 +105,15 @@ const AppCategoryOptionScreen: React.FC<GlobalProps> = (props) => {
                                             </TableBodyCell>
                                             <TableBodyCell align="left">
                                                 <PointerProvider onClick={() => {
-                                                    try{
-                                                        store.deleteCategory(category.id);
-                                                    }catch (e){
 
-                                                    }
+                                                        store.deleteCategory(category.id).catch(e=>{
+                                                            if(e?.errorCode == '703')
+                                                                navigate('/login');
+                                                            else{
+                                                                alert(e.message);
+                                                            }
+                                                        });
+
                                                 }}>
                                                     <RiDeleteBinLine/>
                                                 </PointerProvider>

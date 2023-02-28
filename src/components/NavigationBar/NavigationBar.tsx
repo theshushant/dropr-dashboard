@@ -1,15 +1,16 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styled, {withTheme} from "styled-components";
 import {inject, observer} from "mobx-react";
 import {GlobalProps} from "../../screen/main/App";
-import DroprLogo from "../../assets/DroprD.svg";
+import MoreOption from "../../assets/MoreOption.svg";
 import DashboardIcon from "../../assets/dashboard.svg";
 import UsersIcon from "../../assets/Users.svg";
 import OrderIcon from "../../assets/Order.svg";
 import SliderIcon from "../../assets/slider.svg";
-import EmployeeIcon from "../../assets/Employee.svg";
+import HighlightedEmployeeIcon from "../../assets/Employee.svg";
+import EmployeeIcon from "../../assets/faded_employee.svg";
 import TransactionIcon from "../../assets/Transaction.svg";
-import {ColumnContainer, Divider, SpaceY} from "../../utils/globals";
+import {ColumnContainer, SpaceY} from "../../utils/globals";
 import {useLocation, useNavigate} from "react-router-dom";
 
 interface Props extends GlobalProps {
@@ -19,15 +20,16 @@ interface dashboardItem {
     icon: string,
     navigationPath: string,
     title: string,
+    highlightedIcon: string
 }
 
 const iconList: dashboardItem[] = [
-    {icon: DashboardIcon, navigationPath: '/dashboard', title: 'Dashboard'},
-    {icon: EmployeeIcon, navigationPath: '/employees', title: 'Employee'},
-    {icon: OrderIcon, navigationPath: '/orders', title: 'Order'},
-    {icon: TransactionIcon, navigationPath: '/payments', title: 'Transaction'},
-    {icon: SliderIcon, navigationPath: '/app-options', title: 'App Options'},
-    {icon: UsersIcon, navigationPath: '/users', title: 'Users'},
+    {icon: DashboardIcon, navigationPath: '/dashboard', title: 'Dashboard', highlightedIcon: DashboardIcon},
+    {icon: EmployeeIcon, navigationPath: '/employees', title: 'Employee', highlightedIcon: HighlightedEmployeeIcon},
+    {icon: OrderIcon, navigationPath: '/orders', title: 'Order', highlightedIcon: DashboardIcon},
+    {icon: TransactionIcon, navigationPath: '/payments', title: 'Transaction', highlightedIcon: DashboardIcon},
+    {icon: SliderIcon, navigationPath: '/app-options', title: 'App Options', highlightedIcon: DashboardIcon},
+    {icon: UsersIcon, navigationPath: '/users', title: 'Users', highlightedIcon: DashboardIcon},
 ];
 
 const NavigationContainer = styled.div`
@@ -59,10 +61,6 @@ const NavIconContainer = styled.div`
   margin: 0.9375rem 0;
   cursor: pointer;
   text-align: center;
-`;
-
-const NavDivider = styled(Divider)`
-  height: 0.05rem;
 `;
 
 const NavIcon = styled.img`
@@ -111,11 +109,15 @@ const NavigationBar: React.FC<Props> = (props: Props) => {
                                     : theme.colors.secondaryColor,
                             }}/>
                             <SpaceY height={"2.5rem"}/>
-                            <NavIcon src={element.icon} style={{
+                            <NavIcon src={MoreOption} style={{
                                 color: selectedKey.includes(element.title)
                                     ? theme.colors.primaryColor
                                     : theme.colors.secondaryColor,
-                            }}/>
+                            }} onClick={
+                                () => {
+                                    alert("Hello");
+                                }
+                            }/>
                             <SpaceY height={"1rem"}/>
                         </NavigationColumn>)
                         :

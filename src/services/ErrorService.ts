@@ -1,5 +1,7 @@
 class ErrorService {
-    error: string|undefined;
+    error: string = "";
+
+    isTokenInvalid: boolean = false;
 
     static getInstance(): ErrorService {
         return new ErrorService(
@@ -9,10 +11,14 @@ class ErrorService {
 
     setError(err: string) {
         this.error = err;
+        this.isTokenInvalid = true;
+        console.log("here came still");
     }
 
     voidError(){
-        this.error = undefined;
+        this.error = "";
+        this.isTokenInvalid = false;
+
     }
 
 
