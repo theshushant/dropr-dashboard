@@ -100,7 +100,7 @@ const NavigationBar: React.FC<Props> = (props: Props) => {
                             : theme.colors.whiteColor,
                     }}
                 >
-                    {((location.pathname == '/app-options' || location.pathname == '/employees') && selectedKey == element.title) ?
+                    {((location.pathname == '/app-options'||location.pathname == '/tags' || location.pathname == '/employees') && selectedKey == element.title) ?
                         (<NavigationColumn>
                             <SpaceY height={"1rem"}/>
                             <NavIcon src={element.icon} style={{
@@ -115,7 +115,15 @@ const NavigationBar: React.FC<Props> = (props: Props) => {
                                     : theme.colors.secondaryColor,
                             }} onClick={
                                 () => {
-                                    alert("Hello");
+                                    switch (location.pathname) {
+                                        case '/app-options':
+                                        case '/tags':
+                                            navigate('/tags');
+                                            break;
+                                        default :
+                                            navigate('/create-employee');
+                                    }
+
                                 }
                             }/>
                             <SpaceY height={"1rem"}/>
